@@ -36,6 +36,8 @@ return [
     */
 
     'mailers' => [
+        'gmail' => ['transport' => 'gmail'],
+
 
         'smtp' => [
             'transport' => 'smtp',

@@ -2,6 +2,23 @@
 
 return [
 
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
+    ],
+
+
+    'gmail' => [
+        'client_id' => env('GMAIL_CLIENT_ID'),
+        'client_secret' => env('GMAIL_CLIENT_SECRET'),
+        'redirect_uri' => env('GMAIL_REDIRECT_URI', 'http://127.0.0.1:8000/gmail/callback'),
+        'refresh_token' => env('GMAIL_REFRESH_TOKEN'),
+    ],
+
+
+    'contact' => ['to' => env('CONTACT_TO')],
+
+
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
