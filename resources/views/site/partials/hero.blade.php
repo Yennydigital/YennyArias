@@ -16,10 +16,12 @@
             <span class="d-block">{{ __('Hola, soy Yenny') }}</span>
             <span class="d-block">
                 {{ __('construyo') }}
-                <span class="position-relative d-inline-block">
+                @if (app()->getLocale() === 'es')
+<span class="position-relative d-inline-block">
                     <span id="animated-word" style="display:inline-block;min-width:6ch"></span>
                     <span class="position-absolute start-0 end-0 bottom-0" style="height:10px;background:#fff;opacity:.25;"></span>
                 </span>
+                @endif
             </span>
         </h1>
 
@@ -67,6 +69,7 @@ let index = 0;
 
 function animateWord() {
   const container = document.getElementById("animated-word");
+  if (!container) return;
   container.innerHTML = "";
 
   const word = words[index];
