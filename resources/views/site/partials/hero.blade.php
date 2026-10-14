@@ -9,13 +9,13 @@
     <div class="container position-relative" style="max-width:1400px; padding-top:120px; padding-bottom:120px;">
 
         <span class="badge bg-primary px-3 py-2 rounded-pill">
-            Desarrolladora full-stack
+            {{ __('Desarrolladora full-stack') }}
         </span>
 
         <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9;">
-            <span class="d-block">Hola, soy Yenny</span>
+            <span class="d-block">{{ __('Hola, soy Yenny') }}</span>
             <span class="d-block">
-                construyo
+                {{ __('construyo') }}
                 <span class="position-relative d-inline-block">
                     <span id="animated-word" style="display:inline-block;min-width:6ch"></span>
                     <span class="position-absolute start-0 end-0 bottom-0" style="height:10px;background:#fff;opacity:.25;"></span>
@@ -26,34 +26,34 @@
         <div class="row align-items-end g-5">
             <div class="col-lg-12 fade-in">
                 <p class="fs-4 text-white-50">
-                Construyo APIs, automatizaciones y aplicaciones web. Python, Laravel y n8n, con foco en soluciones simples que funcionan.
+                {{ __('Construyo APIs, automatizaciones y aplicaciones web. Python, Laravel y n8n, con foco en soluciones simples que funcionan.') }}
                 </p>
                 <div class="mt-5">
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        Python, FastAPI, MongoDB y SQLAlchemy.
+                        {{ __('Python, FastAPI, MongoDB y SQLAlchemy.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        Laravel, Livewire y Next.js.
+                        {{ __('Laravel, Livewire y Next.js.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        Automatización de procesos con n8n.
+                        {{ __('Automatización de procesos con n8n.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        Bilingüe EN/ES.
+                        {{ __('Bilingüe EN/ES.') }}
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6 d-flex flex-column flex-sm-row gap-3 fade-in">
                 <a href="#projects" class="btn btn-primary btn-lg rounded-5 px-4">
-                    Ver proyectos
+                    {{ __('Ver proyectos') }}
                 </a>
                 <a href="#contact" class="btn btn-outline-light btn-lg rounded-5 px-4">
-                    Contactarme
+                    {{ __('Contactarme') }}
                 </a>
             </div>
         </div>
@@ -62,7 +62,7 @@
 
 @push('scripts')
 <script>
-const words = ["APIs", "automatizaciones", "software", "integraciones"];
+const words = @json([__('APIs'), __('automatizaciones'), __('software'), __('integraciones')]);
 let index = 0;
 
 function animateWord() {

@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <h6 class="text-uppercase text-muted">Automatización y servidores</h6>
+                <h6 class="text-uppercase text-muted">{{ __('Automatización y servidores') }}</h6>
                 <div class="d-flex flex-wrap gap-2">
                     <span class="badge tech-badge">n8n</span>
                     <span class="badge tech-badge">Linux</span>

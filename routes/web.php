@@ -21,3 +21,10 @@ if (app()->environment('local')) {
         Route::get('/callback', [\App\Http\Controllers\Gmail\GmailController::class, 'callback'])->name('callback');
     });
 }
+
+Route::get('/lang/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['es', 'en'], true), 404);
+    session(['locale' => $locale]);
+
+    return redirect()->back();
+})->name('lang.switch');
