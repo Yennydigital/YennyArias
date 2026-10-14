@@ -32,5 +32,22 @@
     "Ver código": "View code",
     "Automatización y servidores": "Automation and servers",
     "automatizaciones": "automations",
-    "integraciones": "integrations"
+    "integraciones": "integrations",
+    "¡Gracias! Recibí tu mensaje y te respondo pronto.": "Thank you! I got your message and I'll reply soon.",
+    "Nombre": "Name",
+    "Tu email": "Your email",
+    "Mensaje": "Message",
+    "Enviar mensaje": "Send message",
+    "Enviando...": "Sending...",
+    "Enviaste varios mensajes seguidos. Probá de nuevo más tarde.": "You sent several messages in a row. Please try again later.",
+    "No pude enviar el mensaje en este momento. Probá más tarde.": "I couldn't send the message right now. Please try again later.",
+    "Escribí tu nombre.": "Please enter your name.",
+    "El nombre es demasiado corto.": "The name is too short.",
+    "El nombre es demasiado largo.": "The name is too long.",
+    "Escribí tu email.": "Please enter your email.",
+    "Ingresá un email válido.": "Please enter a valid email address.",
+    "El email es demasiado largo.": "The email is too long.",
+    "Escribí tu mensaje.": "Please enter your message.",
+    "El mensaje debe tener al menos :min caracteres.": "The message must be at least :min characters.",
+    "El mensaje es demasiado largo.": "The message is too long."
 }

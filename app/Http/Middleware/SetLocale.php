@@ -12,7 +12,6 @@ class SetLocale
     {
         $locale = session('locale', 'es');
         app()->setLocale(in_array($locale, ['es', 'en'], true) ? $locale : 'es');
-        app()->setFallbackLocale('es');
 
         return $next($request);
     }

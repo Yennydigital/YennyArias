@@ -23,6 +23,21 @@ class ContactForm extends Component
         ];
     }
 
+    protected function messages(): array
+    {
+        return [
+            'name.required' => __('Escribí tu nombre.'),
+            'name.min' => __('El nombre es demasiado corto.'),
+            'name.max' => __('El nombre es demasiado largo.'),
+            'email.required' => __('Escribí tu email.'),
+            'email.email' => __('Ingresá un email válido.'),
+            'email.max' => __('El email es demasiado largo.'),
+            'message.required' => __('Escribí tu mensaje.'),
+            'message.min' => __('El mensaje debe tener al menos :min caracteres.'),
+            'message.max' => __('El mensaje es demasiado largo.'),
+        ];
+    }
+
     public function send(): void
     {
         $this->validate();
@@ -34,7 +49,7 @@ class ContactForm extends Component
 
         $key = 'contact:' . request()->ip();
         if (RateLimiter::tooManyAttempts($key, 3)) {
-            $this->addError('message', 'Enviaste varios mensajes seguidos. Probá de nuevo más tarde.');
+            $this->addError('message', __('Enviaste varios mensajes seguidos. Probá de nuevo más tarde.'));
             return;
         }
 
@@ -48,7 +63,7 @@ class ContactForm extends Component
             });
         } catch (\Throwable $e) {
             report($e);
-            $this->addError('message', 'No pude enviar el mensaje en este momento. Probá más tarde.');
+            $this->addError('message', __('No pude enviar el mensaje en este momento. Probá más tarde.'));
             return;
         }
 
