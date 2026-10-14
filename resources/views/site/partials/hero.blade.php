@@ -62,7 +62,7 @@
 
 @push('scripts')
 <script>
-const words = @json([__('APIs'), __('automatizaciones'), __('software'), __('integraciones')]);
+const words = {!! json_encode([__('APIs'), __('automatizaciones'), __('software'), __('integraciones')], JSON_UNESCAPED_UNICODE) !!};
 let index = 0;
 
 function animateWord() {
