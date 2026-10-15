@@ -3,10 +3,10 @@
     <p class="sub">Your letters live here.</p>
 
     <div class="grid">
-        <a href="#" class="tile ghost">
+        <a href="{{ route('letters.create') }}" class="tile ghost">
             <div class="ico"><i class="bi bi-plus-lg"></i></div>
             <h3>New letter</h3>
-            <p>Coming next: the step-by-step editor.</p>
+            <p>Write, preview and seal a new letter.</p>
         </a>
 
         @foreach ($letters as $letter)

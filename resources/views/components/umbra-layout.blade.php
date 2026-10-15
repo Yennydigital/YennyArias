@@ -81,15 +81,15 @@
             </a>
             <nav class="links">
                 <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
-                <a href="{{ url('/') }}" target="_blank">Sitio</a>
+                <a href="{{ url('/') }}" target="_blank">Website</a>
             </nav>
         </div>
         <details>
             <summary><img class="avatar" src="{{ Auth::user()->profile_photo_url }}" alt=""> {{ Auth::user()->name }} &#9662;</summary>
             <div class="menu">
-                <a href="{{ route('profile.show') }}">Perfil</a>
+                <a href="{{ route('profile.show') }}">Profile</a>
                 <form method="POST" action="{{ route('logout') }}">@csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">Log out</button>
                 </form>
             </div>
         </details>

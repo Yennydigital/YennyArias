@@ -41,3 +41,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/letters', [\App\Http\Controllers\LetterController::class, 'index'])->name('letters.index');
     Route::delete('/letters/{letter}', [\App\Http\Controllers\LetterController::class, 'destroy'])->name('letters.destroy');
 });
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::view('/letters/create', 'letters.create')->name('letters.create');
+});

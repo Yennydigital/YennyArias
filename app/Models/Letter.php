@@ -7,12 +7,16 @@ use Illuminate\Support\Str;
 
 class Letter extends Model
 {
-    protected $fillable = ['user_id', 'template', 'title', 'sections', 'photos', 'music_url'];
+    protected $fillable = [
+        'user_id', 'template', 'title', 'sections', 'photos', 'music_url',
+        'capsule_id', 'sealed_at',
+    ];
 
     protected $casts = [
         'sections' => 'array',
         'photos' => 'array',
         'paid_at' => 'datetime',
+        'sealed_at' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -25,6 +29,11 @@ class Letter extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function capsule()
+    {
+        return $this->belongsTo(Capsule::class);
     }
 
     public function isPaid(): bool
