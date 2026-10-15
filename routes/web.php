@@ -31,9 +31,14 @@ Route::get('/lang/{locale}', function (string $locale) {
 
 // Umbra: cápsulas de mensajes con código
 $capsuleController = \App\Http\Controllers\CapsuleController::class;
-\Illuminate\Support\Facades\Route::get('/write', [$capsuleController, 'create'])->name('capsulas.crear');
-\Illuminate\Support\Facades\Route::post('/write', [$capsuleController, 'store'])->middleware('throttle:20,1')->name('capsulas.guardar');
-\Illuminate\Support\Facades\Route::get('/sealed', [$capsuleController, 'done'])->name('capsulas.listo');
+
+// Crear: solo con sesión iniciada, dentro del dashboard
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () use ($capsuleController) {
+    Route::redirect('/write', '/letters/create')->name('capsulas.crear');
+    Route::get('/sealed', [$capsuleController, 'done'])->name('capsulas.listo');
+});
+
+// Abrir: público (el destinatario no tiene cuenta, solo el código)
 \Illuminate\Support\Facades\Route::get('/open', [$capsuleController, 'openForm'])->name('capsulas.abrir');
 \Illuminate\Support\Facades\Route::post('/open', [$capsuleController, 'open'])->middleware('throttle:10,1')->name('capsulas.abrir.enviar');
 
