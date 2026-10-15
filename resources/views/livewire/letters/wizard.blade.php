@@ -28,6 +28,44 @@
         .wz-thumb button{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;line-height:1}
         .phone-photos{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:0 0 14px}
         .phone-photos img{width:100%;border-radius:8px;display:block}
+        .mp-wrap{position:relative}
+        .mp-badge{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;color:#fff;pointer-events:none}
+        .mp-carousel{position:relative;margin-top:14px}
+        .mp-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px}
+        .mp-track::-webkit-scrollbar{display:none}
+        .mp-card{flex:0 0 170px;scroll-snap-align:start;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.04);overflow:hidden;transition:.2s}
+        .mp-card.on{border-color:#a78bfa;box-shadow:0 0 0 2px rgba(167,139,250,.3)}
+        .mp-top{display:flex;gap:10px;align-items:center;padding:12px}
+        .mp-ico{width:38px;height:38px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+        .mp-name{font-size:13px;font-weight:600}
+        .mp-host{font-size:11px;opacity:.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
+        .mp-open{display:block;text-align:center;padding:8px;border-top:1px solid rgba(255,255,255,.12);font-size:12px;font-weight:600;color:inherit;text-decoration:none;opacity:.8}
+        .mp-open:hover{background:rgba(255,255,255,.06);opacity:1}
+        .mp-arrow{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:#171722;color:inherit;cursor:pointer;z-index:2;padding:0;line-height:1}
+        .mp-arrow.l{left:-12px}
+        .mp-arrow.r{right:-12px}
+        .mp-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
+        .mp-dots i{height:6px;width:6px;border-radius:999px;background:rgba(255,255,255,.2);transition:.2s}
+        .mp-dots i.on{width:20px;background:#f472b6}
+        .mp-wrap{position:relative}
+        .mp-badge{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;color:#fff;pointer-events:none}
+        .mp-carousel{position:relative;margin-top:14px}
+        .mp-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px}
+        .mp-track::-webkit-scrollbar{display:none}
+        .mp-card{flex:0 0 170px;scroll-snap-align:start;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.04);overflow:hidden;transition:.2s}
+        .mp-card.on{border-color:#a78bfa;box-shadow:0 0 0 2px rgba(167,139,250,.3)}
+        .mp-top{display:flex;gap:10px;align-items:center;padding:12px}
+        .mp-ico{width:38px;height:38px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+        .mp-name{font-size:13px;font-weight:600}
+        .mp-host{font-size:11px;opacity:.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
+        .mp-open{display:block;text-align:center;padding:8px;border-top:1px solid rgba(255,255,255,.12);font-size:12px;font-weight:600;color:inherit;text-decoration:none;opacity:.8}
+        .mp-open:hover{background:rgba(255,255,255,.06);opacity:1}
+        .mp-arrow{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:#171722;color:inherit;cursor:pointer;z-index:2;padding:0;line-height:1}
+        .mp-arrow.l{left:-12px}
+        .mp-arrow.r{right:-12px}
+        .mp-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
+        .mp-dots i{height:6px;width:6px;border-radius:999px;background:rgba(255,255,255,.2);transition:.2s}
+        .mp-dots i.on{width:20px;background:#f472b6}
     </style>
 
     <div class="wz-steps">
@@ -91,9 +129,94 @@
                     </div>
                 @endif
 
-                <label>Soundtrack (YouTube, Spotify, Apple Music, Deezer or Amazon Music link)</label>
-                <input type="url" wire:model.live.debounce.400ms="music" maxlength="500" placeholder="https://open.spotify.com/track/...">
-                @error('music') <div class="wz-err">{{ $message }}</div> @enderror
+                <div
+                    x-data="{
+                        val: $wire.music || '',
+                        page: 0,
+                        providers: [
+                            { name: 'YouTube',      host: 'youtube.com',      url: 'https://www.youtube.com',  match: /youtube\.com|youtu\.be/i,   color: '#ff0000', icon: '▶' },
+                            { name: 'Spotify',      host: 'open.spotify.com', url: 'https://open.spotify.com', match: /spotify\.com/i,             color: '#1db954', icon: '≋' },
+                            { name: 'Apple Music',  host: 'music.apple.com',  url: 'https://music.apple.com',  match: /music\.apple\.com/i,        color: '#fa2d48', icon: '♪' },
+                            { name: 'Deezer',       host: 'deezer.com',       url: 'https://www.deezer.com',   match: /deezer\.(com|page\.link)/i, color: '#a238ff', icon: '▮' },
+                            { name: 'Amazon Music', host: 'music.amazon.com', url: 'https://music.amazon.com', match: /music\.amazon\./i,          color: '#25a7da', icon: 'a' },
+                        ],
+                        get active() { return this.providers.find(p => p.match.test(this.val)) },
+                        scrollBy(d) { const t = this.$refs.track; t.scrollBy({ left: d * t.clientWidth * 0.8, behavior: 'smooth' }) },
+                        onScroll() { const t = this.$refs.track; const max = t.scrollWidth - t.clientWidth; this.page = max <= 0 ? 0 : Math.round(t.scrollLeft / max) }
+                    }"
+                >
+                <div
+                    x-data="{
+                        val: $wire.music || '',
+                        page: 0,
+                        providers: [
+                            { name: 'YouTube',      host: 'youtube.com',      url: 'https://www.youtube.com',  match: /youtube\.com|youtu\.be/i,   color: '#ff0000', icon: '▶' },
+                            { name: 'Spotify',      host: 'open.spotify.com', url: 'https://open.spotify.com', match: /spotify\.com/i,             color: '#1db954', icon: '≋' },
+                            { name: 'Apple Music',  host: 'music.apple.com',  url: 'https://music.apple.com',  match: /music\.apple\.com/i,        color: '#fa2d48', icon: '♪' },
+                            { name: 'Deezer',       host: 'deezer.com',       url: 'https://www.deezer.com',   match: /deezer\.(com|page\.link)/i, color: '#a238ff', icon: '▮' },
+                            { name: 'Amazon Music', host: 'music.amazon.com', url: 'https://music.amazon.com', match: /music\.amazon\./i,          color: '#25a7da', icon: 'a' },
+                        ],
+                        get active() { return this.providers.find(p => p.match.test(this.val)) },
+                        scrollBy(d) { const t = this.$refs.track; t.scrollBy({ left: d * t.clientWidth * 0.8, behavior: 'smooth' }) },
+                        onScroll() { const t = this.$refs.track; const max = t.scrollWidth - t.clientWidth; this.page = max <= 0 ? 0 : Math.round(t.scrollLeft / max) }
+                    }"
+                >
+                    <label>Soundtrack (YouTube, Spotify, Apple Music, Deezer or Amazon Music link)</label>
+
+                    <div class="mp-wrap">
+                        <input type="url" wire:model.live.debounce.400ms="music" maxlength="500"
+                               @input="val = $event.target.value"
+                               placeholder="Pega un enlace de YouTube, Spotify, Apple Music, Deezer o Amazon Music"
+                               :style="active ? 'padding-right:110px' : ''">
+                        <template x-if="active">
+                            <span class="mp-badge" :style="`background:${active.color}`" x-text="active.name"></span>
+                        </template>
+                    </div>
+                    @error('music') <div class="wz-err">{{ $message }}</div> @enderror
+
+                    <div wire:ignore class="mp-carousel">
+                        <button type="button" class="mp-arrow l" @click="scrollBy(-1)" aria-label="Anterior">‹</button>
+                        <div class="mp-track" x-ref="track" @scroll.passive="onScroll">
+                            <template x-for="p in providers" :key="p.name">
+                                <div class="mp-card" :class="active && active.name === p.name ? 'on' : ''">
+                                    <div class="mp-top">
+                                        <div class="mp-ico" :style="`background:${p.color}`" x-text="p.icon"></div>
+                                        <div>
+                                            <div class="mp-name" x-text="p.name"></div>
+                                            <div class="mp-host" x-text="p.host"></div>
+                                        </div>
+                                    </div>
+                                    <a class="mp-open" :href="p.url" target="_blank" rel="noopener noreferrer">Abrir ↗</a>
+                                </div>
+                            </template>
+                        </div>
+                        <button type="button" class="mp-arrow r" @click="scrollBy(1)" aria-label="Siguiente">›</button>
+                    </div>
+
+                    <div class="mp-dots"><i :class="page === 0 ? 'on' : ''"></i><i :class="page === 1 ? 'on' : ''"></i></div>
+                </div>
+
+                    <div wire:ignore class="mp-carousel">
+                        <button type="button" class="mp-arrow l" @click="scrollBy(-1)" aria-label="Anterior">‹</button>
+                        <div class="mp-track" x-ref="track" @scroll.passive="onScroll">
+                            <template x-for="p in providers" :key="p.name">
+                                <div class="mp-card" :class="active && active.name === p.name ? 'on' : ''">
+                                    <div class="mp-top">
+                                        <div class="mp-ico" :style="`background:${p.color}`" x-text="p.icon"></div>
+                                        <div>
+                                            <div class="mp-name" x-text="p.name"></div>
+                                            <div class="mp-host" x-text="p.host"></div>
+                                        </div>
+                                    </div>
+                                    <a class="mp-open" :href="p.url" target="_blank" rel="noopener noreferrer">Abrir ↗</a>
+                                </div>
+                            </template>
+                        </div>
+                        <button type="button" class="mp-arrow r" @click="scrollBy(1)" aria-label="Siguiente">›</button>
+                    </div>
+
+                    <div class="mp-dots"><i :class="page === 0 ? 'on' : ''"></i><i :class="page === 1 ? 'on' : ''"></i></div>
+                </div>
             @else
                 <h3>Seal your letter</h3>
                 <p style="opacity:.7;font-size:13px">You will get a 12-character code. It is not stored anywhere, so keep it safe: without it nobody can open the letter.</p>
