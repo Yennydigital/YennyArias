@@ -9,13 +9,13 @@
     <div class="container position-relative" style="max-width:1400px; padding-top:120px; padding-bottom:120px;">
 
         <span class="badge bg-primary px-3 py-2 rounded-pill">
-            {{ __('Desarrolladora full-stack') }}
+            {{ __('Cartas que llegan a tu correo') }}
         </span>
 
         <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9;">
-            <span class="d-block">{{ __('Hola, soy Yenny') }}</span>
+            <span class="d-block">{{ __('Bienvenido a Umbra') }}</span>
             <span class="d-block">
-                {{ __('construyo') }}
+                {{ __('cartas sobre') }}
                 @if (app()->getLocale() === 'es')
 <span class="position-relative d-inline-block">
                     <span id="animated-word" style="display:inline-block;min-width:6ch"></span>
@@ -28,34 +28,34 @@
         <div class="row align-items-end g-5">
             <div class="col-lg-12 fade-in">
                 <p class="fs-4 text-white-50">
-                {{ __('Construyo APIs, automatizaciones y aplicaciones web. Python, Laravel y n8n, con foco en soluciones simples que funcionan.') }}
+                {{ __('Una carta a la vez, sin ruido. Ideas y relatos para leer con calma.') }}
                 </p>
                 <div class="mt-5">
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Python, FastAPI, MongoDB y SQLAlchemy.') }}
+                        {{ __('Una carta por semana.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Laravel, Livewire y Next.js.') }}
+                        {{ __('Sin spam ni publicidad.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Automatización de procesos con n8n.') }}
+                        {{ __('Te das de baja cuando quieras.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Bilingüe EN/ES.') }}
+                        {{ __('Gratis.') }}
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6 d-flex flex-column flex-sm-row gap-3 fade-in">
                 <a href="#projects" class="btn btn-primary btn-lg rounded-5 px-4">
-                    {{ __('Ver proyectos') }}
+                    {{ __('Leer una carta') }}
                 </a>
                 <a href="#contact" class="btn btn-outline-light btn-lg rounded-5 px-4">
-                    {{ __('Contactarme') }}
+                    {{ __('Suscribirme') }}
                 </a>
             </div>
         </div>
@@ -64,7 +64,7 @@
 
 @push('scripts')
 <script>
-const words = {!! json_encode([__('APIs'), __('automatizaciones'), __('software'), __('integraciones')], JSON_UNESCAPED_UNICODE) !!};
+const words = {!! json_encode([__('ideas'), __('relatos'), __('personas'), __('silencios')], JSON_UNESCAPED_UNICODE) !!};
 let index = 0;
 
 function animateWord() {
