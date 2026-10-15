@@ -20,6 +20,14 @@
         .phone .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
         .phone p{margin:0 0 14px;white-space:pre-line}
         .phone .muted{opacity:.35}
+        .wz-drop{position:relative;border:2px dashed rgba(255,255,255,.25);border-radius:14px;padding:22px;text-align:center;font-size:13px;opacity:.9}
+        .wz-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+        .wz-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:10px}
+        .wz-thumb{position:relative}
+        .wz-thumb img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block}
+        .wz-thumb button{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;line-height:1}
+        .phone-photos{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:0 0 14px}
+        .phone-photos img{width:100%;border-radius:8px;display:block}
     </style>
 
     <div class="wz-steps">
@@ -64,6 +72,28 @@
                 @error('love') <div class="wz-err">{{ $message }}</div> @enderror
                 @error('story') <div class="wz-err">{{ $message }}</div> @enderror
                 @error('dreams') <div class="wz-err">{{ $message }}</div> @enderror
+
+                <label>Photos (up to 5)</label>
+                <div class="wz-drop">
+                    Click or drag your photos here
+                    <input type="file" wire:model="newPhotos" multiple accept="image/jpeg,image/png,image/webp">
+                </div>
+                <div wire:loading wire:target="newPhotos" class="wz-err" style="color:inherit;opacity:.7">Uploading…</div>
+                @error('newPhotos') <div class="wz-err">{{ $message }}</div> @enderror
+                @if (count($photos))
+                    <div class="wz-thumbs">
+                        @foreach ($photos as $i => $photo)
+                            <div class="wz-thumb" wire:key="photo-{{ $i }}-{{ $photo->getFilename() }}">
+                                <img src="{{ $photo->temporaryUrl() }}" alt="">
+                                <button type="button" wire:click="removePhoto({{ $i }})" aria-label="Remove photo">×</button>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
+                <label>Soundtrack (YouTube, Spotify, Apple Music, Deezer or Amazon Music link)</label>
+                <input type="url" wire:model.live.debounce.400ms="music" maxlength="500" placeholder="https://open.spotify.com/track/...">
+                @error('music') <div class="wz-err">{{ $message }}</div> @enderror
             @else
                 <h3>Seal your letter</h3>
                 <p style="opacity:.7;font-size:13px">You will get a 12-character code. It is not stored anywhere, so keep it safe: without it nobody can open the letter.</p>
@@ -106,6 +136,16 @@
                 @if ($love !== '') <p>{{ $love }}</p> @endif
                 @if ($story !== '') <p>{{ $story }}</p> @endif
                 @if ($dreams !== '') <p>{{ $dreams }}</p> @endif
+                @if (count($photos))
+                    <div class="phone-photos">
+                        @foreach ($photos as $photo)
+                            <img src="{{ $photo->temporaryUrl() }}" alt="">
+                        @endforeach
+                    </div>
+                @endif
+                @if (trim($music) !== '' && \App\Support\MusicLink::clean($music))
+                    <p class="tag">♪ Soundtrack attached</p>
+                @endif
                 @if ($love === '' && $story === '' && $dreams === '') <p class="muted">Your words will appear here as you write.</p> @endif
                 @if ($sender !== '') <p>— {{ $sender }}</p> @endif
             </div>
