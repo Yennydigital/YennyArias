@@ -11,38 +11,32 @@
             {{ __('Cápsulas del tiempo') }}
         </span>
 
-        <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9;">
+        <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9; text-shadow:0 0 28px rgba(255,64,160,.75), 0 0 60px rgba(255,64,160,.45), 0 3px 8px rgba(0,0,0,.45);">
             <span class="d-block">{{ __('Escribí una carta hoy') }}</span>
             <span class="d-block">
-                {{ __('que se abre en') }}
-                @if (app()->getLocale() === 'es')
-<span class="position-relative d-inline-block">
-                    <span id="animated-word" style="display:inline-block;min-width:6ch"></span>
-                    <span class="position-absolute start-0 end-0 bottom-0" style="height:10px;background:#fff;opacity:.25;"></span>
-                </span>
-                @endif
+                {{ __('para que se abra en el futuro') }}
             </span>
         </h1>
 
         <div class="row align-items-end g-5">
             <div class="col-lg-12 fade-in">
-                <p class="fs-4 text-white-50">
+                <p class="fs-4 text-white" style="text-shadow:0 0 16px rgba(255,64,160,.7), 0 2px 6px rgba(0,0,0,.5);">
                 {{ __('Escribí una carta, sellala con una fecha y dejala esperando a quien más querés.') }}
                 </p>
                 <div class="mt-5">
-                    <div class="feature-check">
+                    <div class="feature-check" style="text-shadow:0 0 12px rgba(255,64,160,.7), 0 2px 5px rgba(0,0,0,.5);">
                         <i class="bi bi-check-circle-fill"></i>
                         {{ __('Cifrada: solo quien tenga el código puede leerla.') }}
                     </div>
-                    <div class="feature-check">
+                    <div class="feature-check" style="text-shadow:0 0 12px rgba(255,64,160,.7), 0 2px 5px rgba(0,0,0,.5);">
                         <i class="bi bi-check-circle-fill"></i>
                         {{ __('Con fotos y música.') }}
                     </div>
-                    <div class="feature-check">
+                    <div class="feature-check" style="text-shadow:0 0 12px rgba(255,64,160,.7), 0 2px 5px rgba(0,0,0,.5);">
                         <i class="bi bi-check-circle-fill"></i>
                         {{ __('Elegís cuándo se abre y cuánto se guarda.') }}
                     </div>
-                    <div class="feature-check">
+                    <div class="feature-check" style="text-shadow:0 0 12px rgba(255,64,160,.7), 0 2px 5px rgba(0,0,0,.5);">
                         <i class="bi bi-check-circle-fill"></i>
                         {{ __('Podés hacer que se queme al leerla.') }}
                     </div>
@@ -61,39 +55,3 @@
     </div>
 </section>
 
-@push('scripts')
-<script>
-const words = {!! json_encode([__('una semana'), __('un año'), __('tu cumpleaños'), __('el futuro')], JSON_UNESCAPED_UNICODE) !!};
-let index = 0;
-
-function animateWord() {
-  const container = document.getElementById("animated-word");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const word = words[index];
-
-  word.split("").forEach((char, i) => {
-    const span = document.createElement("span");
-    span.textContent = char;
-    span.style.opacity = "0";
-    span.style.display = "inline-block";
-    span.style.transform = "translateY(10px)";
-    span.style.transition = "all 0.3s ease";
-    span.style.transitionDelay = `${i * 50}ms`;
-
-    container.appendChild(span);
-
-    setTimeout(() => {
-      span.style.opacity = "1";
-      span.style.transform = "translateY(0)";
-    }, 50);
-  });
-
-  index = (index + 1) % words.length;
-}
-
-animateWord();
-setInterval(animateWord, 2500);
-</script>
-@endpush
