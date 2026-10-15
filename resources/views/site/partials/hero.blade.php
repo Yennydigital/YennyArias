@@ -2,7 +2,7 @@
     <video autoplay loop muted playsinline class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style="filter:saturate(1.8) contrast(1.15) brightness(1.05);">
         <source src="{{ asset('img/oso.mp4') }}" type="video/mp4">
     </video>
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background:rgba(5,5,30,.25)"></div>
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background:linear-gradient(to bottom, rgba(5,5,30,.05), rgba(5,5,30,.55))"></div>
 
 
     <div class="container position-relative" style="max-width:1400px; padding-top:120px; padding-bottom:120px;">
