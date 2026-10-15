@@ -1,3 +1,4 @@
+@props(['title' => 'Dashboard', 'jet' => false])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -5,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Dashboard' }} | Umbra</title>
+    @if($jet)
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @endif
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,700,800&display=swap" rel="stylesheet">
     <style>
@@ -45,6 +50,20 @@
         .tile.ghost{border-style:dashed;border-color:rgba(148,163,184,.3);opacity:.7}
         .tile.ghost:hover{transform:none;box-shadow:none;border-color:rgba(148,163,184,.5)}
         @media(max-width:640px){.links{display:none}.nav{padding:12px 16px}}
+        .pagehead{max-width:1100px;margin:0 auto;padding:30px 24px 0}
+        .pagehead h2{margin:0;font-size:28px;font-weight:800;color:#fff!important}
+        .jet{padding-bottom:40px}
+        .jet .bg-white,.jet .bg-gray-50,.jet .bg-gray-100{background:rgba(10,10,32,.65)!important;backdrop-filter:blur(10px)}
+        .jet .bg-gray-50{background:rgba(5,5,25,.4)!important}
+        .jet .shadow,.jet .shadow-md,.jet .shadow-xl{box-shadow:0 0 28px rgba(34,211,238,.08)!important;border:1px solid rgba(34,211,238,.2)}
+        .jet .text-gray-900,.jet .text-gray-800,.jet .text-gray-700{color:#fff!important}
+        .jet .text-gray-600,.jet .text-gray-500,.jet .text-gray-400{color:#94a3b8!important}
+        .jet .border-gray-100,.jet .border-gray-200,.jet .border-gray-300{border-color:rgba(148,163,184,.25)!important}
+        .jet input:not([type=checkbox]):not([type=radio]),.jet select,.jet textarea{background:rgba(15,15,45,.8)!important;color:#fff!important;border-color:rgba(148,163,184,.3)!important}
+        .jet input:focus,.jet select:focus,.jet textarea:focus{border-color:#22d3ee!important;box-shadow:0 0 0 3px rgba(34,211,238,.2)!important;outline:none}
+        .jet .bg-gray-800{background:#22d3ee!important;color:#04111f!important;border-radius:999px}
+        .jet .bg-gray-800:hover{background:#67e8f9!important}
+        .jet a.underline{color:#22d3ee}
     </style>
 </head>
 <body>
@@ -73,6 +92,13 @@
             </div>
         </details>
     </header>
-    <main class="wrap">{{ $slot }}</main>
+    @if($jet && isset($header) && $header->isNotEmpty())
+        <div class="pagehead">{{ $header }}</div>
+    @endif
+    <main class="{{ $jet ? 'jet' : 'wrap' }}">{{ $slot }}</main>
+    @if($jet)
+        @stack('modals')
+        @livewireScripts
+    @endif
 </body>
 </html>
