@@ -1,4 +1,4 @@
-<section class="py-5 bg-light" id="about">
+<section class="py-5" id="about">
     <div class="container" style="max-width:1100px;">
         <h2 class="fw-bold mb-2">{{ __('Cómo funciona') }}</h2>
         <p class="text-muted mb-5">{{ __('Tres pasos para dejar una carta en el tiempo.') }}</p>

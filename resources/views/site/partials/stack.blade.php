@@ -1,33 +1,33 @@
 <section class="py-5 site-band" id="stack">
     <div class="container" style="max-width:1100px;">
-        <h2 class="fw-bold mb-4">Stack</h2>
+        <h2 class="fw-bold mb-4">{{ __('Qué incluye') }}</h2>
         <div class="row g-4">
             <div class="col-md-4">
-                <h6 class="text-uppercase text-muted">Backend</h6>
+                <h6 class="text-uppercase text-muted">{{ __('Seguridad') }}</h6>
                 <div class="d-flex flex-wrap gap-2">
-                    <span class="badge tech-badge">Python</span>
-                    <span class="badge tech-badge">FastAPI</span>
-                    <span class="badge tech-badge">SQLAlchemy</span>
-                    <span class="badge tech-badge">MongoDB</span>
-                    <span class="badge tech-badge">Laravel</span>
+                    <span class="badge tech-badge">{{ __('Cifrado') }}</span>
+                    <span class="badge tech-badge">{{ __('Código de acceso') }}</span>
+                    <span class="badge tech-badge">{{ __('Se quema al leer') }}</span>
                 </div>
             </div>
             <div class="col-md-4">
-                <h6 class="text-uppercase text-muted">Frontend</h6>
+                <h6 class="text-uppercase text-muted">{{ __('Contenido') }}</h6>
                 <div class="d-flex flex-wrap gap-2">
-                    <span class="badge tech-badge">Livewire</span>
-                    <span class="badge tech-badge">Blade</span>
-                    <span class="badge tech-badge">Next.js</span>
-                    <span class="badge tech-badge">Bootstrap</span>
+                    <span class="badge tech-badge">{{ __('Plantillas') }}</span>
+                    <span class="badge tech-badge">{{ __('Hasta 5 fotos') }}</span>
+                    <span class="badge tech-badge">{{ __('Música') }}</span>
+                    <span class="badge tech-badge">YouTube</span>
+                    <span class="badge tech-badge">Spotify</span>
                 </div>
             </div>
             <div class="col-md-4">
-                <h6 class="text-uppercase text-muted">{{ __('Automatización y servidores') }}</h6>
+                <h6 class="text-uppercase text-muted">{{ __('Tiempo') }}</h6>
                 <div class="d-flex flex-wrap gap-2">
-                    <span class="badge tech-badge">n8n</span>
-                    <span class="badge tech-badge">Linux</span>
-                    <span class="badge tech-badge">DigitalOcean</span>
-                    <span class="badge tech-badge">Git</span>
+                    <span class="badge tech-badge">{{ __('Fecha de apertura') }}</span>
+                    <span class="badge tech-badge">{{ __('7 días') }}</span>
+                    <span class="badge tech-badge">{{ __('30 días') }}</span>
+                    <span class="badge tech-badge">{{ __('90 días') }}</span>
+                    <span class="badge tech-badge">{{ __('1 año') }}</span>
                 </div>
             </div>
         </div>
