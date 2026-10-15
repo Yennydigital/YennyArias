@@ -1,5 +1,5 @@
 @php $other = app()->getLocale() === 'es' ? 'en' : 'es'; @endphp
-<nav class="navbar navbar-expand-lg sticky-top py-2" data-bs-theme="dark" style="background:#05051e;">
+<nav class="navbar navbar-expand-lg sticky-top py-2" data-bs-theme="dark" style="background:#05051e !important; border-bottom:1px solid rgba(255,255,255,.08);">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4 text-white" href="{{ route('index') }}">Umbra</a>
 
