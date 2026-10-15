@@ -11,16 +11,15 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link fs-6 px-3 text-dark" href="#home">{{ __('Inicio') }}</a></li>
-                <li class="nav-item"><a class="nav-link fs-6 px-3 text-dark" href="#about">{{ __('Qué es Umbra') }}</a></li>
-                <li class="nav-item"><a class="nav-link fs-6 px-3 text-dark" href="#projects">{{ __('Cartas') }}</a></li>
-                <li class="nav-item"><a class="nav-link fs-6 px-3 text-dark" href="#contact">{{ __('Suscribirme') }}</a></li>
+                <li class="nav-item"><a class="nav-link fs-6 px-3 text-dark" href="#about">{{ __('Cómo funciona') }}</a></li>
+                <li class="nav-item"><a class="nav-link fs-6 px-3 text-dark" href="#projects">{{ __('Plantillas') }}</a></li>
             </ul>
             <div class="d-flex align-items-center gap-2">
                 <a href="{{ route('lang.switch', $other) }}" class="btn btn-outline-secondary rounded-5 px-3"
                    aria-label="{{ __('Cambiar idioma') }}">
                     <i class="bi bi-translate me-1"></i> {{ strtoupper($other) }}
                 </a>
-                <a href="#contact" class="btn btn-primary rounded-5 px-4">{{ __('Suscribirme') }}</a>
+                <a href="{{ route('letters.create') }}" class="btn btn-primary rounded-5 px-4">{{ __('Escribir una carta') }}</a>
             </div>
         </div>
     </div>

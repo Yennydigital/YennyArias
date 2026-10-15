@@ -1,17 +1,22 @@
-<section class="py-5" id="about">
+<section class="py-5 bg-light" id="about">
     <div class="container" style="max-width:1100px;">
-        <div class="row align-items-center g-5 py-5">
-            <div class="col-lg-5">
-                <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">{{ __('Sobre mí') }}</span>
-                <h2 class="fw-bold display-5">{{ __('Código que resuelve problemas reales') }}</h2>
+        <h2 class="fw-bold mb-2">{{ __('Cómo funciona') }}</h2>
+        <p class="text-muted mb-5">{{ __('Tres pasos para dejar una carta en el tiempo.') }}</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <i class="bi bi-pencil-square fs-2 text-primary"></i>
+                <h5 class="fw-bold mt-3">{{ __('1. Escribila') }}</h5>
+                <p class="text-muted">{{ __('Elegí una plantilla (amor, cumpleaños, agradecimiento) y sumá fotos y música.') }}</p>
             </div>
-            <div class="col-lg-7">
-                <p class="fs-5 text-muted">
-                    {{ __('Soy desarrolladora full-stack en Buenos Aires. Construyo APIs con Python y FastAPI, aplicaciones web con Laravel, Livewire y Next.js, y automatizo procesos con n8n.') }}
-                </p>
-                <p class="fs-5 text-muted">
-                    {{ __('He participado en productos SaaS reales, desde el backend hasta la interfaz, y también me ocupo de la puesta en marcha en servidores Linux. Trabajo en español e inglés.') }}
-                </p>
+            <div class="col-md-4">
+                <i class="bi bi-lock fs-2 text-primary"></i>
+                <h5 class="fw-bold mt-3">{{ __('2. Sellala') }}</h5>
+                <p class="text-muted">{{ __('Elegí cuándo se abre y cuánto tiempo se guarda. El contenido se guarda cifrado.') }}</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-key fs-2 text-primary"></i>
+                <h5 class="fw-bold mt-3">{{ __('3. Compartí el código') }}</h5>
+                <p class="text-muted">{{ __('Quien tenga el código la abre cuando llegue la fecha. Si querés, se quema después de leerla.') }}</p>
             </div>
         </div>
     </div>

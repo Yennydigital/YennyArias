@@ -2,17 +2,14 @@
     <div class="container">
         <div class="row gy-4 align-items-center">
             <div class="col-md-6">
-                <h5 class="fw-bold">Yenny Arias</h5>
-                <p class="text-light mb-0">
-                    <i class="bi bi-geo-alt-fill me-2"></i>Buenos Aires, Argentina
-                </p>
+                <h5 class="fw-bold">Umbra</h5>
+                <p class="text-light mb-0">{{ __('Cartas que llegan a tu correo') }}</p>
             </div>
             <div class="col-md-6 text-md-end">
-                <a href="https://github.com/Yennydigital" target="_blank" rel="noopener"
-                   class="text-white fs-3 me-3"><i class="bi bi-github"></i></a>
+                <a href="{{ route('letters.create') }}" class="btn btn-primary rounded-5 px-4">{{ __('Escribir una carta') }}</a>
             </div>
         </div>
         <hr class="border-light my-4">
-        <small class="text-light">© {{ date('Y') }} Yenny Arias</small>
+        <small class="text-light">© {{ date('Y') }} Umbra</small>
     </div>
 </footer>

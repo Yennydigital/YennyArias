@@ -59,7 +59,7 @@ class ContactForm extends Component
             Mail::raw($body, function ($mail) {
                 $mail->to(config('services.contact.to'))
                     ->replyTo($this->email, $this->name)
-                    ->subject('Portfolio: mensaje de ' . $this->name);
+                    ->subject('Umbra: mensaje de ' . $this->name);
             });
         } catch (\Throwable $e) {
             report($e);

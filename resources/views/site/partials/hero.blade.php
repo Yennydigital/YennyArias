@@ -9,13 +9,13 @@
     <div class="container position-relative" style="max-width:1400px; padding-top:120px; padding-bottom:120px;">
 
         <span class="badge bg-primary px-3 py-2 rounded-pill">
-            {{ __('Cartas que llegan a tu correo') }}
+            {{ __('Cápsulas del tiempo') }}
         </span>
 
         <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9;">
-            <span class="d-block">{{ __('Bienvenido a Umbra') }}</span>
+            <span class="d-block">{{ __('Escribí una carta hoy') }}</span>
             <span class="d-block">
-                {{ __('cartas sobre') }}
+                {{ __('que se abre en') }}
                 @if (app()->getLocale() === 'es')
 <span class="position-relative d-inline-block">
                     <span id="animated-word" style="display:inline-block;min-width:6ch"></span>
@@ -28,34 +28,34 @@
         <div class="row align-items-end g-5">
             <div class="col-lg-12 fade-in">
                 <p class="fs-4 text-white-50">
-                {{ __('Una carta a la vez, sin ruido. Ideas y relatos para leer con calma.') }}
+                {{ __('Escribí una carta, sellala con una fecha y dejala esperando a quien más querés.') }}
                 </p>
                 <div class="mt-5">
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Una carta por semana.') }}
+                        {{ __('Cifrada: solo quien tenga el código puede leerla.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Sin spam ni publicidad.') }}
+                        {{ __('Con fotos y música.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Te das de baja cuando quieras.') }}
+                        {{ __('Elegís cuándo se abre y cuánto se guarda.') }}
                     </div>
                     <div class="feature-check">
                         <i class="bi bi-check-circle-fill"></i>
-                        {{ __('Gratis.') }}
+                        {{ __('Podés hacer que se queme al leerla.') }}
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6 d-flex flex-column flex-sm-row gap-3 fade-in">
                 <a href="#projects" class="btn btn-primary btn-lg rounded-5 px-4">
-                    {{ __('Leer una carta') }}
+                    {{ __('Cómo funciona') }}
                 </a>
-                <a href="#contact" class="btn btn-outline-light btn-lg rounded-5 px-4">
-                    {{ __('Suscribirme') }}
+                <a href="{{ route('letters.create') }}" class="btn btn-outline-light btn-lg rounded-5 px-4">
+                    {{ __('Escribir una carta') }}
                 </a>
             </div>
         </div>
@@ -64,7 +64,7 @@
 
 @push('scripts')
 <script>
-const words = {!! json_encode([__('ideas'), __('relatos'), __('personas'), __('silencios')], JSON_UNESCAPED_UNICODE) !!};
+const words = {!! json_encode([__('una semana'), __('un año'), __('tu cumpleaños'), __('el futuro')], JSON_UNESCAPED_UNICODE) !!};
 let index = 0;
 
 function animateWord() {
