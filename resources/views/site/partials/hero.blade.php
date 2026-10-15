@@ -12,16 +12,16 @@
         </span>
 
         <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9; text-shadow:0 0 28px rgba(255,64,160,.75), 0 0 60px rgba(255,64,160,.45), 0 3px 8px rgba(0,0,0,.45);">
-            <span class="d-block">{{ __('Escribí una carta hoy') }}</span>
+            <span class="d-block">{{ __('Algunas palabras') }}</span>
             <span class="d-block">
-                {{ __('para que se abra en el futuro') }}
+                {{ __('esperan en la sombra.') }}
             </span>
         </h1>
 
         <div class="row align-items-end g-5">
             <div class="col-lg-12 fade-in">
                 <p class="fs-4 text-white" style="text-shadow:0 0 16px rgba(255,64,160,.7), 0 2px 6px rgba(0,0,0,.5);">
-                {{ __('Escribí una carta, sellala con una fecha y dejala esperando a quien más querés.') }}
+                {{ __('Sellalas con una fecha y dejalas dormir.') }}
                 </p>
                 <div class="mt-5">
                     <div class="feature-check" style="text-shadow:0 0 12px rgba(255,64,160,.7), 0 2px 5px rgba(0,0,0,.5);">
