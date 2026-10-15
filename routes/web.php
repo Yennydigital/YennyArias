@@ -9,6 +9,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 });
@@ -30,14 +31,8 @@ Route::get('/lang/{locale}', function (string $locale) {
 
 // Umbra: cápsulas de mensajes con código
 $capsuleController = \App\Http\Controllers\CapsuleController::class;
+\Illuminate\Support\Facades\Route::get('/write', [$capsuleController, 'create'])->name('capsulas.crear');
+\Illuminate\Support\Facades\Route::post('/write', [$capsuleController, 'store'])->middleware('throttle:20,1')->name('capsulas.guardar');
 \Illuminate\Support\Facades\Route::get('/sealed', [$capsuleController, 'done'])->name('capsulas.listo');
 \Illuminate\Support\Facades\Route::get('/open', [$capsuleController, 'openForm'])->name('capsulas.abrir');
 \Illuminate\Support\Facades\Route::post('/open', [$capsuleController, 'open'])->middleware('throttle:10,1')->name('capsulas.abrir.enviar');
-
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\CapsuleController::class, 'index'])->name('dashboard');
-    Route::get('/write', [\App\Http\Controllers\CapsuleController::class, 'create'])->name('capsules.create');
-    Route::post('/write', [\App\Http\Controllers\CapsuleController::class, 'store'])->name('capsules.store');
-    Route::get('/capsules/{capsule}', [\App\Http\Controllers\CapsuleController::class, 'show'])->name('capsules.show');
-    Route::delete('/capsules/{capsule}', [\App\Http\Controllers\CapsuleController::class, 'destroy'])->name('capsules.destroy');
-});

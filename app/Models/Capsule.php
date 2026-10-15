@@ -14,6 +14,4 @@ class Capsule extends Model
         'opened_at' => 'datetime',
         'burn_after_read' => 'boolean',
     ];
-
-    public function user() { return $this->belongsTo(\App\Models\User::class); }
 }
