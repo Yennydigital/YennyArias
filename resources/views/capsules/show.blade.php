@@ -13,6 +13,7 @@
         @endif
 
         <div class="msg">{{ $payload['message'] }}</div>
+@include('capsules._extras', ['payload' => $payload])
 
         @if (! empty($payload['from']))
             <p class="from">De {{ $payload['from'] }}</p>
