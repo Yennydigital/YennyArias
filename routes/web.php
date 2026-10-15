@@ -31,8 +31,8 @@ Route::get('/lang/{locale}', function (string $locale) {
 
 // Umbra: cápsulas de mensajes con código
 $capsuleController = \App\Http\Controllers\CapsuleController::class;
-\Illuminate\Support\Facades\Route::get('/escribir', [$capsuleController, 'create'])->name('capsulas.crear');
-\Illuminate\Support\Facades\Route::post('/escribir', [$capsuleController, 'store'])->middleware('throttle:20,1')->name('capsulas.guardar');
-\Illuminate\Support\Facades\Route::get('/listo', [$capsuleController, 'done'])->name('capsulas.listo');
-\Illuminate\Support\Facades\Route::get('/abrir', [$capsuleController, 'openForm'])->name('capsulas.abrir');
-\Illuminate\Support\Facades\Route::post('/abrir', [$capsuleController, 'open'])->middleware('throttle:10,1')->name('capsulas.abrir.enviar');
+\Illuminate\Support\Facades\Route::get('/write', [$capsuleController, 'create'])->name('capsulas.crear');
+\Illuminate\Support\Facades\Route::post('/write', [$capsuleController, 'store'])->middleware('throttle:20,1')->name('capsulas.guardar');
+\Illuminate\Support\Facades\Route::get('/sealed', [$capsuleController, 'done'])->name('capsulas.listo');
+\Illuminate\Support\Facades\Route::get('/open', [$capsuleController, 'openForm'])->name('capsulas.abrir');
+\Illuminate\Support\Facades\Route::post('/open', [$capsuleController, 'open'])->middleware('throttle:10,1')->name('capsulas.abrir.enviar');
