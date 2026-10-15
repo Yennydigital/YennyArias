@@ -67,6 +67,7 @@
             <button type="submit">{{ __('Log in') }}</button>
         </form>
 
+        <div class="foot">{{ __('New to Umbra?') }} <a href="{{ route('register') }}">{{ __('Sign up') }}</a></div>
         <div class="foot"><a href="{{ url('/') }}">&larr; {{ __('Back to home') }}</a></div>
     </main>
 </body>
