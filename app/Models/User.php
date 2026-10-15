@@ -66,4 +66,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function letters()
+    {
+        return $this->hasMany(\App\Models\Letter::class);
+    }
 }

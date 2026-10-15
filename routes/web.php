@@ -36,3 +36,8 @@ $capsuleController = \App\Http\Controllers\CapsuleController::class;
 \Illuminate\Support\Facades\Route::get('/sealed', [$capsuleController, 'done'])->name('capsulas.listo');
 \Illuminate\Support\Facades\Route::get('/open', [$capsuleController, 'openForm'])->name('capsulas.abrir');
 \Illuminate\Support\Facades\Route::post('/open', [$capsuleController, 'open'])->middleware('throttle:10,1')->name('capsulas.abrir.enviar');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/letters', [\App\Http\Controllers\LetterController::class, 'index'])->name('letters.index');
+    Route::delete('/letters/{letter}', [\App\Http\Controllers\LetterController::class, 'destroy'])->name('letters.destroy');
+});

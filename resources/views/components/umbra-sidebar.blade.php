@@ -22,7 +22,7 @@
 <aside class="side">
     <h4>Menu</h4>
     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <a href="{{ route('capsulas.crear') }}" class="{{ request()->routeIs('capsulas.*') ? 'active' : '' }}"><i class="bi bi-envelope-paper"></i> Letters</a>
+    <a href="{{ route('letters.index') }}" class="{{ request()->routeIs('letters.*') ? 'active' : '' }}"><i class="bi bi-envelope-paper"></i> Letters</a>
     <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.*') ? 'active' : '' }}"><i class="bi bi-person-circle"></i> Profile</a>
     <a href="{{ url('/') }}" target="_blank"><i class="bi bi-globe2"></i> Website</a>
 </aside>
