@@ -7,9 +7,6 @@
 
     <div class="container position-relative" style="max-width:1400px; padding-top:120px; padding-bottom:120px;">
 
-        <span class="badge bg-primary px-3 py-2 rounded-pill">
-            {{ __('Cápsulas del tiempo') }}
-        </span>
 
         <h1 class="fw-bold mb-5 fade-in" style="font-size:clamp(2.5rem,8vw,6rem); line-height:.9; text-shadow:0 0 28px rgba(255,64,160,.75), 0 0 60px rgba(255,64,160,.45), 0 3px 8px rgba(0,0,0,.45);">
             <span class="d-block">{{ __('Algunas palabras') }}</span>
