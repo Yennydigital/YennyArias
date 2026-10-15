@@ -97,6 +97,7 @@
     @if($jet && isset($header) && $header->isNotEmpty())
         <div class="pagehead">{{ $header }}</div>
     @endif
+    <x-umbra-sidebar />
     <main class="{{ $jet ? 'jet' : 'wrap' }}">{{ $slot }}</main>
     @if($jet)
         @stack('modals')
