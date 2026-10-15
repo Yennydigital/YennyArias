@@ -30,6 +30,8 @@
         summary{list-style:none;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:14px;
             border:1px solid rgba(148,163,184,.3);color:#e5e7eb}
         summary::-webkit-details-marker{display:none}
+        summary{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 6px}
+        .avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(34,211,238,.5)}
         summary:hover{border-color:#22d3ee}
         .menu{position:absolute;right:0;top:calc(100% + 8px);min-width:180px;padding:6px;border-radius:12px;
             background:rgba(10,10,32,.95);border:1px solid rgba(34,211,238,.25);box-shadow:0 10px 30px rgba(0,0,0,.5)}
@@ -83,7 +85,7 @@
             </nav>
         </div>
         <details>
-            <summary>{{ Auth::user()->name }} &#9662;</summary>
+            <summary><img class="avatar" src="{{ Auth::user()->profile_photo_url }}" alt=""> {{ Auth::user()->name }} &#9662;</summary>
             <div class="menu">
                 <a href="{{ route('profile.show') }}">Perfil</a>
                 <form method="POST" action="{{ route('logout') }}">@csrf
