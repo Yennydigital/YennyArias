@@ -1,6 +1,6 @@
 <section class="position-relative min-vh-100 d-flex flex-column justify-content-center overflow-hidden text-white" id="home">
     <video autoplay loop muted playsinline class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
-        <source src="{{ asset('img/Hero_opt_3.mp4') }}" type="video/mp4">
+        <source src="{{ asset('img/oso.mp4') }}" type="video/mp4">
     </video>
     <div class="position-absolute top-0 start-0 w-100 h-100" style="background:rgba(5,5,30,.6)"></div>
 
