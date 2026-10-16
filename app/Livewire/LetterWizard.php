@@ -38,6 +38,8 @@ class LetterWizard extends Component
         'love-letter' => 'Love letter',
         'birthday' => 'Birthday',
         'thank-you' => 'Thank you',
+        'starry-night' => 'Starry night',
+        'pixel-city' => 'Pixel city',
     ];
 
     protected function composeMessage(): string
@@ -210,6 +212,11 @@ class LetterWizard extends Component
 
     public function next(): void
     {
+        if ($this->step === 1 && ! \App\Support\Templates::canUse($this->template, auth()->user())) {
+            $this->addError('template', 'This is a premium template. Unlock it to continue.');
+            return;
+        }
+
         if ($this->step === 2 && ! $this->validateContent()) {
             return;
         }
@@ -224,6 +231,12 @@ class LetterWizard extends Component
 
     public function seal()
     {
+        if (! \App\Support\Templates::canUse($this->template, auth()->user())) {
+            $this->addError('template', 'This is a premium template. Unlock it first.');
+            $this->step = 1;
+            return;
+        }
+
         if (! $this->validateContent()) {
             $this->step = 2;
             return;
