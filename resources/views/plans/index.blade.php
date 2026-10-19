@@ -1,10 +1,13 @@
 <x-umbra-layout title="Planes">
 <style>
 .pl-head{text-align:center;margin-bottom:26px}
+main.wrap{max-width:none}
+.pl-head,.pl-grid,.pl-exp{max-width:1000px;margin-left:auto;margin-right:auto}
+.pl-head{margin-bottom:26px}
 .pl-toggle{display:inline-flex;padding:4px;border-radius:999px;border:1px solid rgba(34,211,238,.25);background:rgba(10,10,32,.65);margin-top:14px}
 .pl-toggle button{border:0;background:none;color:#94a3b8;padding:8px 20px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;transition:.15s}
 .pl-toggle button.on{background:#22d3ee;color:#04111f;font-weight:600}
-.pl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,340px));gap:20px;justify-content:center}
+.pl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,300px));gap:20px;justify-content:center;margin-left:auto;margin-right:auto}
 .pl-card{position:relative;display:flex;flex-direction:column;padding:26px;border-radius:18px;background:rgba(10,10,32,.65);
     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(34,211,238,.2);transition:.2s}
 .pl-card:hover{border-color:#22d3ee;box-shadow:0 0 28px rgba(34,211,238,.18)}
@@ -28,7 +31,7 @@
 .pl-exp{margin:20px 0 0;text-align:center;color:#94a3b8;font-size:13px}
 </style>
 
-@php $plan_label = fn ($d) => $d >= 365 ? '1 año' : $d . ' días'; @endphp
+@php $plan_label = fn ($d) => $d >= 365 ? (round($d / 365) <= 1 ? '1 año' : round($d / 365) . ' años') : $d . ' días'; @endphp
 
 <div class="pl-head">
     <h1 class="title">Planes</h1>
