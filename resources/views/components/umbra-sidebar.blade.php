@@ -20,9 +20,17 @@
     }
 </style>
 <aside class="side">
-    <h4>Menu</h4>
-    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <a href="{{ route('letters.index') }}" class="{{ request()->routeIs('letters.*') ? 'active' : '' }}"><i class="bi bi-envelope-paper"></i> Letters</a>
+    @if (auth()->user() && auth()->user()->is_admin)
+        <h4>Admin</h4>
+        <a href="{{ route('admin.plans.index') }}" class="{{ request()->routeIs('admin.plans.*') ? 'active' : '' }}"><i class="bi bi-tags"></i> Planes</a>
+        <a href="{{ route('admin.subscriptions.index') }}" class="{{ request()->routeIs('admin.subscriptions.*') ? 'active' : '' }}"><i class="bi bi-credit-card-2-front"></i> Suscripciones</a>
+        <h4 style="margin-top:18px">Menu</h4>
+    @else
+        <h4>Menu</h4>
+    @endif
+    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard', 'admin.dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="{{ route('letters.index') }}" class="{{ request()->routeIs('letters.*', 'admin.letters.*') ? 'active' : '' }}"><i class="bi bi-envelope-paper"></i> Letters</a>
+    <a href="{{ route('plans.index') }}" class="{{ request()->routeIs('plans.*') ? 'active' : '' }}"><i class="bi bi-stars"></i> Mi plan</a>
     <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.*') ? 'active' : '' }}"><i class="bi bi-person-circle"></i> Profile</a>
     <a href="{{ url('/') }}" target="_blank"><i class="bi bi-globe2"></i> Website</a>
 </aside>

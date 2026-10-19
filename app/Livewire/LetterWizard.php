@@ -38,6 +38,8 @@ class LetterWizard extends Component
         'love-letter' => 'Love letter',
         'birthday' => 'Birthday',
         'thank-you' => 'Thank you',
+        'starry-night' => 'Starry night',
+        'pixel-city' => 'Pixel city',
     ];
 
     protected function composeMessage(): string
@@ -77,7 +79,22 @@ class LetterWizard extends Component
             return false;
         }
 
+        if (trim($this->music) !== '' && ! $this->plan()->allow_music) {
+            $this->addError('music', 'Soundtracks are included in the Plus plan.');
+            return false;
+        }
+
         return true;
+    }
+
+    public function getCurrentPlanProperty(): \App\Models\Plan
+    {
+        return $this->plan();
+    }
+
+    protected function plan(): \App\Models\Plan
+    {
+        return \App\Support\Plans::for(auth()->user());
     }
 
     public function updatedNewPhotos(): void
@@ -102,8 +119,8 @@ class LetterWizard extends Component
         }
 
         foreach ($incoming as $file) {
-            if (count($this->photos) >= self::MAX_PHOTOS) {
-                $this->addError('newPhotos', 'You can add up to ' . self::MAX_PHOTOS . ' photos.');
+            if (count($this->photos) >= $this->plan()->max_photos) {
+                $this->addError('newPhotos', 'You can add up to ' . $this->plan()->max_photos . ' photos.');
                 break;
             }
             $this->photos[] = $file;
@@ -210,6 +227,11 @@ class LetterWizard extends Component
 
     public function next(): void
     {
+        if ($this->step === 1 && ! \App\Support\Templates::canUse($this->template, auth()->user())) {
+            $this->addError('template', 'This is a premium template. Unlock it to continue.');
+            return;
+        }
+
         if ($this->step === 2 && ! $this->validateContent()) {
             return;
         }
@@ -224,6 +246,12 @@ class LetterWizard extends Component
 
     public function seal()
     {
+        if (! \App\Support\Templates::canUse($this->template, auth()->user())) {
+            $this->addError('template', 'This is a premium template. Unlock it first.');
+            $this->step = 1;
+            return;
+        }
+
         if (! $this->validateContent()) {
             $this->step = 2;
             return;
@@ -234,6 +262,17 @@ class LetterWizard extends Component
             'keep' => 'required|in:7,30,90,365',
             'tz' => 'nullable|string|max:64',
         ]);
+
+        $plan = $this->plan();
+        if ((int) $this->keep > $plan->max_days) {
+            $this->addError('keep', 'Your plan allows up to ' . $plan->max_days . ' days.');
+            return;
+        }
+        if (count($this->photos) > $plan->max_photos) {
+            $this->addError('newPhotos', 'Your plan allows up to ' . $plan->max_photos . ' photos.');
+            $this->step = 2;
+            return;
+        }
 
         $photos = $this->encodePhotos();
         if ($photos === null) {
@@ -290,6 +329,6 @@ class LetterWizard extends Component
 
     public function render()
     {
-        return view('livewire.letters.wizard');
+        return view('livewire.letters.wizard', ['plan' => $this->plan()]);
     }
 }

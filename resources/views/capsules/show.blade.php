@@ -1,4 +1,7 @@
+@php $tpl = in_array($payload['template'] ?? '', ['love-letter','birthday','thank-you','starry-night','pixel-city'], true) ? $payload['template'] : 'default'; @endphp
 <x-umbra-capsule-layout title="Una cápsula para ti" :noindex="true">
+@include('capsules._themes')
+@include('capsules._themes_free')
     <section class="card center" id="seal">
         <button type="button" class="orbbtn" id="unseal" aria-label="Abrir la cápsula">
             @include('capsules._orb')
@@ -7,9 +10,13 @@
         <p class="lead">Toca el sello para abrirlo.</p>
     </section>
 
-    <section class="card letter" id="letter" hidden>
+    <section class="card letter tpl-{{ $tpl }}" id="letter" hidden>
         @if (! empty($payload['to']))
             <p class="to">Para {{ $payload['to'] }}</p>
+        @endif
+
+        @if (! empty($payload['title']))
+            <h2 class="ttl">{{ $payload['title'] }}</h2>
         @endif
 
         <div class="msg">{{ $payload['message'] }}</div>

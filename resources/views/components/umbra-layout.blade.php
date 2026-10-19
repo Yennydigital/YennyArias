@@ -80,6 +80,9 @@
                 Umbra
             </a>
             <nav class="links">
+                @if (auth()->user() && auth()->user()->is_admin)
+                    <a href="{{ route('admin.plans.index') }}" class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">Admin</a>
+                @endif
                 <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
                 <a href="{{ url('/') }}" target="_blank">Website</a>
             </nav>

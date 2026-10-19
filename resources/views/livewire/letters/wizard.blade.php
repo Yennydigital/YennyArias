@@ -48,6 +48,41 @@
         .mp-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
         .mp-dots i{height:6px;width:6px;border-radius:999px;background:rgba(255,255,255,.2);transition:.2s}
         .mp-dots i.on{width:20px;background:#f472b6}
+        /* ===== PREVIEW: STARRY NIGHT ===== */
+        .phone.pv-starry-night{border-color:#1b1250;box-shadow:0 0 40px rgba(129,140,248,.35),0 20px 50px rgba(0,0,0,.5)}
+        .pv-starry-night .phone-in{background:radial-gradient(ellipse at 50% 0%,#1b1250 0%,#0a0a2a 55%,#03030f 100%);font-family:Georgia,'Times New Roman',serif;color:#eef2ff;text-shadow:0 0 14px rgba(165,180,252,.3)}
+        .pv-starry-night .phone-in::before{content:"\263E";display:block;text-align:center;font-size:30px;color:#fde68a;text-shadow:0 0 20px rgba(253,230,138,.8);margin-bottom:6px}
+        .pv-starry-night h2{color:#c4b5fd}
+        .pv-starry-night .phone-photos img{border-radius:12px;box-shadow:0 0 18px rgba(129,140,248,.45)}
+        /* ===== PREVIEW: PIXEL CITY ===== */
+        .phone.pv-pixel-city{border-color:#f0abfc;border-radius:12px;box-shadow:6px 6px 0 #22d3ee}
+        .pv-pixel-city .phone-in{background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px),linear-gradient(rgba(20,0,40,.62),rgba(2,2,20,.82)),url('{{ asset('img/umbra-bg.gif') }}') center/cover no-repeat;font-family:ui-monospace,Menlo,Consolas,monospace;color:#e0f2fe;text-shadow:0 0 8px rgba(34,211,238,.45)}
+        .pv-pixel-city .phone-in::before{content:"> umbra.exe --open letter";display:block;margin-bottom:12px;padding-bottom:8px;border-bottom:1px dashed rgba(34,211,238,.5);color:#22d3ee;font-size:11px;letter-spacing:.08em}
+        .pv-pixel-city h2{color:#f0abfc;text-transform:uppercase;letter-spacing:.08em;font-size:18px}
+        .pv-pixel-city .tag{color:#22d3ee;opacity:1}
+        .pv-pixel-city .phone-photos img{image-rendering:pixelated;border:2px solid #22d3ee;border-radius:0;box-shadow:3px 3px 0 #f0abfc}
+        /* ===== PREVIEW: LOVE LETTER ===== */
+        .phone.pv-love-letter{border-color:#fb7185;box-shadow:0 0 40px rgba(251,113,133,.35),0 20px 50px rgba(0,0,0,.5)}
+        .pv-love-letter .phone-in{background:linear-gradient(rgba(40,8,28,.95),rgba(15,2,15,.98));font-family:Georgia,'Times New Roman',serif;color:#ffe4e6}
+        .pv-love-letter .phone-in::before{content:"\2665";display:block;text-align:center;font-size:30px;color:#fb7185;text-shadow:0 0 20px rgba(251,113,133,.8);margin-bottom:6px;animation:pvfloat 3s ease-in-out infinite}
+        .pv-love-letter h2{color:#fda4af;font-style:italic}
+        .pv-love-letter .phone-photos img{border-radius:12px;box-shadow:0 0 18px rgba(251,113,133,.45)}
+        @keyframes pvfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+        /* ===== PREVIEW: BIRTHDAY ===== */
+        .phone.pv-birthday{border-color:#facc15;box-shadow:0 0 40px rgba(250,204,21,.3),0 20px 50px rgba(0,0,0,.5)}
+        .pv-birthday .phone-in{background:radial-gradient(circle at 15% 12%,rgba(250,204,21,.9) 0 2px,transparent 3px),radial-gradient(circle at 85% 20%,rgba(244,114,182,.9) 0 2px,transparent 3px),radial-gradient(circle at 70% 60%,rgba(34,211,238,.9) 0 2px,transparent 3px),radial-gradient(circle at 20% 85%,rgba(163,230,53,.9) 0 2px,transparent 3px),linear-gradient(160deg,#2a0a4a,#0a0a2a);color:#fff}
+        .pv-birthday .phone-in::before{content:"\1F382  \00A1Feliz cumplea\00F1os!  \1F389";display:block;text-align:center;font-size:15px;font-weight:800;color:#facc15;margin-bottom:10px}
+        .pv-birthday h2{color:#f472b6;font-weight:800}
+        .pv-birthday .tag{color:#facc15;opacity:1}
+        .pv-birthday .phone-photos img{border:2px solid #facc15;border-radius:10px}
+        /* ===== PREVIEW: THANK YOU ===== */
+        .phone.pv-thank-you{border-color:#34d399;box-shadow:0 0 40px rgba(52,211,153,.25),0 20px 50px rgba(0,0,0,.5)}
+        .pv-thank-you .phone-in{background:linear-gradient(rgba(6,30,28,.97),rgba(2,10,12,.99));border-top:4px solid #fcd34d;color:#ecfdf5}
+        .pv-thank-you .phone-in::before{content:"Gracias";display:block;text-align:center;font-family:Georgia,serif;font-size:24px;color:#fcd34d;letter-spacing:.12em;margin-bottom:8px}
+        .pv-thank-you h2{color:#6ee7b7}
+        .pv-thank-you .tag{color:#fcd34d;opacity:1}
+        .pv-thank-you .phone-photos img{border-radius:10px;box-shadow:0 0 18px rgba(52,211,153,.4)}
+
     </style>
 
     <div class="wz-steps">
@@ -63,9 +98,10 @@
                 <div class="wz-tpls">
                     @foreach ($templates as $key => $label)
                         <button type="button" wire:click="pickTemplate('{{ $key }}')"
-                                class="wz-tpl {{ $template === $key ? 'on' : '' }}">{{ $label }}</button>
+                                class="wz-tpl {{ $template === $key ? 'on' : '' }}">{{ $label }}@if (\App\Support\Templates::isPremium($key))<small style="display:block;opacity:.75;margin-top:4px">★ Premium @unless (\App\Support\Templates::canUse($key, auth()->user())) · 🔒@endunless</small>@endif</button>
                     @endforeach
                 </div>
+                @error('template') <div class="wz-err">{{ $message }}</div> @enderror
             @elseif ($step === 2)
                 <h3>Write your letter</h3>
 
@@ -93,7 +129,7 @@
                 @error('story') <div class="wz-err">{{ $message }}</div> @enderror
                 @error('dreams') <div class="wz-err">{{ $message }}</div> @enderror
 
-                <label>Photos (up to 5)</label>
+                <label>Photos (up to {{ $plan->max_photos }})</label>
                 <div class="wz-drop">
                     Click or drag your photos here
                     <input type="file" wire:model="newPhotos" multiple accept="image/jpeg,image/png,image/webp">
@@ -187,10 +223,9 @@
 
                 <label>Keep it available for</label>
                 <select wire:model="keep">
-                    <option value="7">7 days</option>
-                    <option value="30">30 days</option>
-                    <option value="90">90 days</option>
-                    <option value="365">365 days</option>
+                    @foreach ([7, 30, 90, 365] as $d)
+                        <option value="{{ $d }}" @disabled($d > $plan->max_days)>{{ $d }} days{{ $d > $plan->max_days ? ' (Plus)' : '' }}</option>
+                    @endforeach
                 </select>
                 @error('keep') <div class="wz-err">{{ $message }}</div> @enderror
 
@@ -211,7 +246,7 @@
             </div>
         </div>
 
-        <div class="phone">
+        <div class="phone pv-{{ $template }}">
             <div class="phone-in">
                 <div class="tag">{{ $templates[$template] ?? 'Letter' }}</div>
                 <h2 class="{{ $title === '' ? 'muted' : '' }}">{{ $title !== '' ? $title : 'Your title' }}</h2>
