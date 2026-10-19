@@ -86,12 +86,12 @@ class BillingController extends Controller
         }
         if (in_array($topic, ['order', 'orders'], true) && $id) {
             $order = $mp->fetchOrder($id);
-            $pid = $order['transactions']['payments'][0]['id'] ?? null;
-            if (! $pid) {
+            $found = ! empty($order['external_reference']) ? $mp->findPaymentByReference($order['external_reference']) : null;
+            if (! $found || empty($found['id'])) {
                 return response('', 200);
             }
             $topic = 'payment';
-            $id = $pid;
+            $id = $found['id'];
         }
         if ($topic !== 'payment' || ! $id) {
             return response('', 200);
@@ -137,10 +137,7 @@ class BillingController extends Controller
         $payment = Payment::where('external_reference', $ref)->where('user_id', $request->user()->id)->firstOrFail();
 
         if ($payment->status === 'pending') {
-            $meta = json_decode((string) $payment->provider_data, true) ?: [];
-            $order = ! empty($meta['qr_order_id']) ? $mp->fetchOrder($meta['qr_order_id']) : null;
-            $pid = $order['transactions']['payments'][0]['id'] ?? null;
-            if ($pid && ($data = $mp->fetchPayment($pid))) {
+            if ($data = $mp->findPaymentByReference($payment->external_reference)) {
                 $mp->apply($payment, $data);
                 $payment->refresh();
             }

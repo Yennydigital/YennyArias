@@ -224,4 +224,29 @@ class MercadoPagoGateway
             return null;
         }
     }
+
+    /** Busca el pago de MP por external_reference (sirve para pagos de ordenes QR). */
+    public function findPaymentByReference(string $ref): ?array
+    {
+        try {
+            $res = Http::withToken($this->token())->acceptJson()->timeout(20)
+                ->get(self::API . '/v1/payments/search', [
+                    'external_reference' => $ref,
+                    'sort' => 'date_created',
+                    'criteria' => 'desc',
+                ]);
+            $list = $res->successful() ? ($res->json('results') ?? []) : [];
+            foreach ($list as $x) {
+                if (($x['status'] ?? '') === 'approved') {
+                    return $x;
+                }
+            }
+
+            return $list[0] ?? null;
+        } catch (\Throwable $e) {
+            Log::error('[MP] error buscando pago por referencia: ' . $e->getMessage());
+
+            return null;
+        }
+    }
 }

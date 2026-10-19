@@ -11,3 +11,5 @@ Artisan::command('inspire', function () {
 \Illuminate\Support\Facades\Schedule::call(function () {
     \App\Models\Capsule::where('expires_at', '<', now())->delete();
 })->daily();
+
+\Illuminate\Support\Facades\Schedule::command('subscriptions:remind')->timezone('America/Argentina/Buenos_Aires')->dailyAt('10:00');
