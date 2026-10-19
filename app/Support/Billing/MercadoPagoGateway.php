@@ -171,4 +171,57 @@ class MercadoPagoGateway
 
         return $status;
     }
+
+    /** Crea una orden QR dinamica. Devuelve ['id' => ..., 'qr_data' => ...]. */
+    public function createQrOrder(Payment $payment, Plan $plan): array
+    {
+        $pos = (string) config('billing.mercadopago.qr_pos_id');
+        if ($pos === '') {
+            throw new RuntimeException('Falta MP_QR_POS_ID.');
+        }
+        $cycle = $payment->billing_cycle === 'yearly' ? 'anual' : 'mensual';
+        $amount = number_format((float) $payment->amount, 2, '.', '');
+        $title = 'Umbra ' . $plan->name . ' (' . $cycle . ')';
+
+        $res = Http::withToken($this->token())->acceptJson()->timeout(20)
+            ->withHeaders(['X-Idempotency-Key' => $payment->external_reference])
+            ->post(self::API . '/v1/orders', [
+                'type' => 'qr',
+                'total_amount' => $amount,
+                'description' => $title,
+                'external_reference' => $payment->external_reference,
+                'expiration_time' => 'PT15M',
+                'config' => ['qr' => ['external_pos_id' => $pos, 'mode' => 'dynamic']],
+                'transactions' => ['payments' => [['amount' => $amount]]],
+                'items' => [[
+                    'title' => $title,
+                    'unit_price' => $amount,
+                    'quantity' => 1,
+                    'unit_measure' => 'unit',
+                ]],
+            ]);
+        $body = $res->json() ?? [];
+        $qr = $body['type_response']['qr_data'] ?? null;
+
+        if (! $res->successful() || ! $qr || empty($body['id'])) {
+            Log::error('[MP] orden QR rechazada', ['status' => $res->status(), 'body' => $body]);
+            throw new RuntimeException('Orden QR rechazada por MercadoPago.');
+        }
+
+        return ['id' => $body['id'], 'qr_data' => $qr];
+    }
+
+    public function fetchOrder($id): ?array
+    {
+        try {
+            $res = Http::withToken($this->token())->acceptJson()->timeout(20)
+                ->get(self::API . '/v1/orders/' . rawurlencode((string) $id));
+
+            return $res->successful() ? $res->json() : null;
+        } catch (\Throwable $e) {
+            Log::error('[MP] error consultando orden ' . $id . ': ' . $e->getMessage());
+
+            return null;
+        }
+    }
 }

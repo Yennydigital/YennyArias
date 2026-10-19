@@ -12,5 +12,6 @@ return [
         'webhook_secret' => env('MERCADO_PAGO_WEBHOOK_SECRET'),
         // URL publica https (tunel o dominio). Vacio = url('/')
         'public_url' => env('MP_PUBLIC_URL'),
+        'qr_pos_id' => env('MP_QR_POS_ID'),
     ],
 ];

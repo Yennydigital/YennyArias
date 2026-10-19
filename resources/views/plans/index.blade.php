@@ -94,6 +94,7 @@
                         <option value="stripe" disabled>Tarjeta en USD (pronto)</option>
                     </select>
                     <button type="submit" class="pl-cta" style="background:#22d3ee;border-color:#22d3ee;color:#04111f;font-weight:600;cursor:pointer">Contratar</button>
+                    <button type="submit" formaction="{{ route('billing.qr') }}" class="pl-cta" style="margin-top:8px;background:transparent;border-color:#22d3ee;color:#22d3ee;font-weight:600;cursor:pointer">Pagar con QR</button>
                 </form>
             @endif
         </div>

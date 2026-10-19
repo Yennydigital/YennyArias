@@ -60,6 +60,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::post('/billing/checkout', [\App\Http\Controllers\BillingController::class, 'start'])->name('billing.checkout');
     Route::get('/billing/return', [\App\Http\Controllers\BillingController::class, 'back'])->name('billing.return');
+    Route::post('/billing/qr', [\App\Http\Controllers\BillingController::class, 'qr'])->name('billing.qr');
+    Route::get('/billing/qr/{ref}/status', [\App\Http\Controllers\BillingController::class, 'qrStatus'])->name('billing.qr.status');
 });
 Route::post('/billing/mercadopago/webhook', [\App\Http\Controllers\BillingController::class, 'webhook'])
     ->middleware('throttle:60,1')->name('billing.mercadopago.webhook');
