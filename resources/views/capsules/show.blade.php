@@ -2,6 +2,13 @@
 <x-umbra-capsule-layout title="Una cápsula para ti" :noindex="true">
 @include('capsules._themes')
 @include('capsules._themes_free')
+@php
+    $bgData = $payload['bg'] ?? null;
+    $bgOk = is_string($bgData) && preg_match('~^data:image/jpeg;base64,[A-Za-z0-9+/=]+$~', $bgData);
+@endphp
+@if ($bgOk)
+<style>body:has(.letter){background:linear-gradient(rgba(10,4,20,.62),rgba(5,2,12,.82)),url('{{ $bgData }}') center/cover no-repeat fixed!important}</style>
+@endif
     <section class="card center" id="seal">
         <button type="button" class="orbbtn" id="unseal" aria-label="Abrir la cápsula">
             @include('capsules._orb')
@@ -19,7 +26,7 @@
             <h2 class="ttl">{{ $payload['title'] }}</h2>
         @endif
 
-        <div class="msg">{{ $payload['message'] }}</div>
+        <div class="msg">{{ \App\Support\Stickers::render($payload['message'] ?? '') }}</div>
 @include('capsules._extras', ['payload' => $payload])
 
         @if (! empty($payload['from']))

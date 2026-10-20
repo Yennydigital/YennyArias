@@ -2,8 +2,6 @@
 
 namespace App\Support;
 
-use App\Models\TemplatePurchase;
-
 class Templates
 {
     public const PREMIUM = ['starry-night', 'pixel-city'];
@@ -19,9 +17,15 @@ class Templates
             return true;
         }
 
-        return $user && TemplatePurchase::where('user_id', $user->id)
-            ->where('template', $key)
-            ->whereNotNull('paid_at')
-            ->exists();
+        if (! $user) {
+            return false;
+        }
+
+        if (Plans::for($user)->premium_templates) {
+            return true;
+        }
+
+        // Las plantillas premium se desbloquean solo por plan, igual para todos.
+        return false;
     }
 }

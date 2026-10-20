@@ -79,7 +79,22 @@ class LetterWizard extends Component
             return false;
         }
 
+        if (trim($this->music) !== '' && ! $this->plan()->allow_music) {
+            $this->addError('music', 'Soundtracks are included in the Plus plan.');
+            return false;
+        }
+
         return true;
+    }
+
+    public function getCurrentPlanProperty(): \App\Models\Plan
+    {
+        return $this->plan();
+    }
+
+    protected function plan(): \App\Models\Plan
+    {
+        return \App\Support\Plans::for(auth()->user());
     }
 
     public function updatedNewPhotos(): void
@@ -104,8 +119,8 @@ class LetterWizard extends Component
         }
 
         foreach ($incoming as $file) {
-            if (count($this->photos) >= self::MAX_PHOTOS) {
-                $this->addError('newPhotos', 'You can add up to ' . self::MAX_PHOTOS . ' photos.');
+            if (count($this->photos) >= $this->plan()->max_photos) {
+                $this->addError('newPhotos', 'You can add up to ' . $this->plan()->max_photos . ' photos.');
                 break;
             }
             $this->photos[] = $file;
@@ -248,10 +263,41 @@ class LetterWizard extends Component
             'tz' => 'nullable|string|max:64',
         ]);
 
+        $plan = $this->plan();
+        if ((int) $this->keep > $plan->max_days) {
+            $this->addError('keep', 'Your plan allows up to ' . $plan->max_days . ' days.');
+            return;
+        }
+        if (count($this->photos) > $plan->max_photos) {
+            $this->addError('newPhotos', 'Your plan allows up to ' . $plan->max_photos . ' photos.');
+            $this->step = 2;
+            return;
+        }
+
         $photos = $this->encodePhotos();
         if ($photos === null) {
             $this->step = 2;
             return;
+        }
+
+        $bg = null;
+        if ($this->bgFile) {
+            if (! extension_loaded('gd')) {
+                $this->addError('bgFile', 'Image processing is not available on this server.');
+                $this->step = 2;
+                return;
+            }
+            $bg = $this->encodePhoto((string) $this->bgFile->getRealPath());
+            if ($bg === null) {
+                $this->addError('bgFile', 'The background could not be processed. Try another image.');
+                $this->step = 2;
+                return;
+            }
+        }
+
+        $stkTier = \App\Support\Stickers::tierOf(auth()->user());
+        foreach (['love', 'story', 'dreams'] as $stkField) {
+            $this->$stkField = \App\Support\Stickers::sanitize($this->$stkField, $stkTier);
         }
 
         $result = CapsuleFactory::make(
@@ -267,6 +313,7 @@ class LetterWizard extends Component
                     'dreams' => $this->dreams,
                 ],
                 'photos' => $photos,
+                'bg' => $bg,
                 'music' => MusicLink::clean($this->music),
             ],
             $this->opens_at ?: null,
@@ -282,6 +329,13 @@ class LetterWizard extends Component
             'capsule_id' => $result['capsule']->id,
             'sealed_at' => now(),
         ]);
+
+        if ($this->bgFile) {
+            try {
+                $this->bgFile->delete();
+            } catch (\Throwable $e) {
+            }
+        }
 
         // No dejar las fotos originales sin cifrar en el disco temporal.
         foreach ($this->photos as $file) {
@@ -303,6 +357,36 @@ class LetterWizard extends Component
 
     public function render()
     {
-        return view('livewire.letters.wizard');
+        return view('livewire.letters.wizard', ['plan' => $this->plan()]);
+    }
+
+    public string $gifQuery = '';
+
+    public $bgFile = null;
+
+    public function updatedBgFile(): void
+    {
+        try {
+            $this->validateOnly('bgFile', ['bgFile' => 'nullable|image|mimes:jpeg,png,webp|max:5120']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->reset('bgFile');
+            throw $e;
+        }
+    }
+
+    public function removeBg(): void
+    {
+        $this->reset('bgFile');
+    }
+    public array $gifResults = [];
+
+    public function loadGifs(): void
+    {
+        $this->gifResults = \App\Support\Gifs::search($this->gifQuery);
+    }
+
+    public function updatedGifQuery(): void
+    {
+        $this->loadGifs();
     }
 }
