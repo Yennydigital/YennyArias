@@ -19,7 +19,7 @@
             <h2 class="ttl">{{ $payload['title'] }}</h2>
         @endif
 
-        <div class="msg">{{ $payload['message'] }}</div>
+        <div class="msg">{{ \App\Support\Stickers::render($payload['message'] ?? '') }}</div>
 @include('capsules._extras', ['payload' => $payload])
 
         @if (! empty($payload['from']))

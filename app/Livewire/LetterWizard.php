@@ -280,6 +280,11 @@ class LetterWizard extends Component
             return;
         }
 
+        $stkTier = \App\Support\Stickers::tierOf(auth()->user());
+        foreach (['love', 'story', 'dreams'] as $stkField) {
+            $this->$stkField = \App\Support\Stickers::sanitize($this->$stkField, $stkTier);
+        }
+
         $result = CapsuleFactory::make(
             [
                 'message' => $this->composeMessage(),

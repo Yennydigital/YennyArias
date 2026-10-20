@@ -117,6 +117,8 @@
                 <input type="text" wire:model.live.debounce.250ms="sender" maxlength="60">
                 @error('sender') <div class="wz-err">{{ $message }}</div> @enderror
 
+                @include('livewire.letters._stickers')
+
                 <label>What I love about you</label>
                 <textarea rows="4" wire:model.live.debounce.250ms="love"></textarea>
 
@@ -251,9 +253,9 @@
                 <div class="tag">{{ $templates[$template] ?? 'Letter' }}</div>
                 <h2 class="{{ $title === '' ? 'muted' : '' }}">{{ $title !== '' ? $title : 'Your title' }}</h2>
                 @if ($recipient !== '') <p>Dear {{ $recipient }},</p> @endif
-                @if ($love !== '') <p>{{ $love }}</p> @endif
-                @if ($story !== '') <p>{{ $story }}</p> @endif
-                @if ($dreams !== '') <p>{{ $dreams }}</p> @endif
+                @if ($love !== '') <p>{{ \App\Support\Stickers::render($love) }}</p> @endif
+                @if ($story !== '') <p>{{ \App\Support\Stickers::render($story) }}</p> @endif
+                @if ($dreams !== '') <p>{{ \App\Support\Stickers::render($dreams) }}</p> @endif
                 @if (count($photos))
                     <div class="phone-photos">
                         @foreach ($photos as $photo)
