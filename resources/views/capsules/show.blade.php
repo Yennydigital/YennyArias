@@ -2,6 +2,15 @@
 <x-umbra-capsule-layout title="Una cápsula para ti" :noindex="true">
 @include('capsules._themes')
 @include('capsules._themes_free')
+@php $fontKey = \App\Support\LetterFonts::clean($payload['font'] ?? ''); @endphp
+@include('capsules._fonts')
+@php
+    $bgData = $payload['bg'] ?? null;
+    $bgOk = is_string($bgData) && preg_match('~^data:image/jpeg;base64,[A-Za-z0-9+/=]+$~', $bgData);
+@endphp
+@if ($bgOk)
+<style>body:has(.letter){background:linear-gradient(rgba(10,4,20,.62),rgba(5,2,12,.82)),url('{{ $bgData }}') center/cover no-repeat fixed!important}</style>
+@endif
     <section class="card center" id="seal">
         <button type="button" class="orbbtn" id="unseal" aria-label="Abrir la cápsula">
             @include('capsules._orb')
@@ -10,7 +19,7 @@
         <p class="lead">Toca el sello para abrirlo.</p>
     </section>
 
-    <section class="card letter tpl-{{ $tpl }}" id="letter" hidden>
+    <section class="card letter tpl-{{ $tpl }}" id="letter" data-font="{{ $fontKey }}" hidden>
         @if (! empty($payload['to']))
             <p class="to">Para {{ $payload['to'] }}</p>
         @endif

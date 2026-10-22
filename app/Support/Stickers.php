@@ -16,7 +16,7 @@ class Stickers
     }
 
     /** Escapa TODO el texto y recien despues reemplaza las marcas [[s:ID]] por imagenes. */
-    public static function render(?string $text, int $max = 30): HtmlString
+    public static function renderStickers(?string $text, int $max = 30): HtmlString
     {
         $safe = e((string) $text);
         preg_match_all('/\[\[s:(\d+)\]\]/', $safe, $m);
@@ -51,5 +51,20 @@ class Stickers
 
             return (self::TIERS[$st->pack->min_plan] ?? 0) <= $tier ? $m[0] : '';
         }, (string) $text);
+    }
+
+    public static function render(...$args)
+    {
+        $html = (string) static::renderStickers(...$args);
+
+        $html = preg_replace_callback('/\[gif:([A-Za-z0-9]{5,30})\]/', function ($m) {
+            $url = \App\Support\Gifs::url($m[1]);
+
+            return $url
+                ? '<img src="'.e($url).'" alt="GIF" loading="lazy" style="max-width:100%;border-radius:12px;vertical-align:middle">'
+                : '';
+        }, $html);
+
+        return new \Illuminate\Support\HtmlString($html);
     }
 }

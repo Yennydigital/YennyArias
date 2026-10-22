@@ -55,3 +55,120 @@
 </script>
 @endscript
 @endif
+
+<div class="gif-picker" wire:ignore data-key="{{ config('services.giphy.key') }}" data-mode="gifs">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" data-gif-toggle
+                style="padding:6px 14px;border:1px solid currentColor;border-radius:999px;background:none;color:inherit;cursor:pointer">GIF</button>
+    </div>
+
+    <div data-gif-panel style="display:none;margin-top:8px">
+        <div style="display:flex;gap:6px;margin-bottom:6px">
+            <button type="button" data-gif-mode="gifs"
+                    style="padding:4px 12px;border:1px solid currentColor;border-radius:999px;background:none;color:inherit;cursor:pointer">GIFs</button>
+            <button type="button" data-gif-mode="stickers"
+                    style="padding:4px 12px;border:1px solid currentColor;border-radius:999px;background:none;color:inherit;cursor:pointer;opacity:.5">Stickers</button>
+        </div>
+        <input type="text" data-gif-q placeholder="Buscar GIF..." autocomplete="off">
+        <div data-gif-msg style="margin-top:6px;font-size:12px"></div>
+        <div data-gif-grid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:8px;max-height:260px;overflow:auto"></div>
+        <small>Powered by GIPHY</small>
+    </div>
+</div>
+
+@script
+<script>
+if (!window.__umbraGif) {
+    window.__umbraGif = true;
+    let lastTextarea = null;
+    let timer = null;
+
+    document.addEventListener('focusin', function (e) {
+        if (e.target && e.target.tagName === 'TEXTAREA') lastTextarea = e.target;
+    });
+
+    async function gifSearch(root) {
+        const key = root.dataset.key;
+        const kind = root.dataset.mode === 'stickers' ? 'stickers' : 'gifs';
+        const msg = root.querySelector('[data-gif-msg]');
+        const grid = root.querySelector('[data-gif-grid]');
+        const term = root.querySelector('[data-gif-q]').value.trim();
+
+        if (!key) { msg.textContent = 'Falta la API key (data-key vacio)'; return; }
+        msg.textContent = 'Cargando...';
+
+        const url = 'https://api.giphy.com/v1/' + kind + '/' + (term ? 'search' : 'trending')
+            + '?api_key=' + encodeURIComponent(key)
+            + '&limit=24&rating=g&lang=es'
+            + (term ? '&q=' + encodeURIComponent(term) : '');
+
+        try {
+            const r = await fetch(url);
+            if (!r.ok) { grid.innerHTML = ''; msg.textContent = 'Error de GIPHY: ' + r.status; return; }
+            const j = await r.json();
+            const items = j.data || [];
+            grid.innerHTML = '';
+            items.forEach(function (g) {
+                const img = document.createElement('img');
+                img.src = g.images.fixed_width_small.url;
+                img.loading = 'lazy';
+                img.dataset.gifId = g.id;
+                img.style.cssText = 'width:100%;cursor:pointer;border-radius:8px';
+                grid.appendChild(img);
+            });
+            msg.textContent = items.length ? '' : 'Sin resultados';
+        } catch (err) {
+            console.error('GIF search error:', err);
+            grid.innerHTML = '';
+            msg.textContent = 'No se pudo conectar con GIPHY';
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        const modeBtn = e.target.closest('[data-gif-mode]');
+        if (modeBtn) {
+            const root = modeBtn.closest('.gif-picker');
+            root.dataset.mode = modeBtn.dataset.gifMode;
+            root.querySelectorAll('[data-gif-mode]').forEach(function (b) {
+                b.style.opacity = (b === modeBtn) ? '1' : '.5';
+            });
+            root.querySelector('[data-gif-q]').placeholder =
+                root.dataset.mode === 'stickers' ? 'Buscar sticker...' : 'Buscar GIF...';
+            gifSearch(root);
+            return;
+        }
+
+        const toggle = e.target.closest('[data-gif-toggle]');
+        if (toggle) {
+            const root = toggle.closest('.gif-picker');
+            const panel = root.querySelector('[data-gif-panel]');
+            const open = panel.style.display === 'none';
+            panel.style.display = open ? 'block' : 'none';
+            if (open && !root.querySelector('[data-gif-grid]').children.length) gifSearch(root);
+            return;
+        }
+
+        const img = e.target.closest('[data-gif-id]');
+        if (img) {
+            const root = img.closest('.gif-picker');
+            const t = lastTextarea || document.querySelector('textarea');
+            if (!t) return;
+            const tok = '[gif:' + img.dataset.gifId + ']';
+            const s = (t.selectionStart !== undefined && t.selectionStart !== null) ? t.selectionStart : t.value.length;
+            t.value = t.value.slice(0, s) + tok + t.value.slice(s);
+            t.dispatchEvent(new Event('input', { bubbles: true }));
+            t.focus();
+            root.querySelector('[data-gif-panel]').style.display = 'none';
+        }
+    });
+
+    document.addEventListener('input', function (e) {
+        if (e.target && e.target.matches && e.target.matches('[data-gif-q]')) {
+            const root = e.target.closest('.gif-picker');
+            clearTimeout(timer);
+            timer = setTimeout(function () { gifSearch(root); }, 400);
+        }
+    });
+}
+</script>
+@endscript

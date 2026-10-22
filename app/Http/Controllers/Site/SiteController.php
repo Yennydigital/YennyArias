@@ -9,6 +9,8 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return view('site.index');
+        return view('site.index', [
+            'plans' => \App\Models\Plan::where('is_active', true)->orderBy('position')->get(),
+        ]);
     }
 }

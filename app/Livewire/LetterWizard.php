@@ -280,6 +280,21 @@ class LetterWizard extends Component
             return;
         }
 
+        $bg = null;
+        if ($this->bgFile) {
+            if (! extension_loaded('gd')) {
+                $this->addError('bgFile', 'Image processing is not available on this server.');
+                $this->step = 2;
+                return;
+            }
+            $bg = $this->encodePhoto((string) $this->bgFile->getRealPath());
+            if ($bg === null) {
+                $this->addError('bgFile', 'The background could not be processed. Try another image.');
+                $this->step = 2;
+                return;
+            }
+        }
+
         $stkTier = \App\Support\Stickers::tierOf(auth()->user());
         foreach (['love', 'story', 'dreams'] as $stkField) {
             $this->$stkField = \App\Support\Stickers::sanitize($this->$stkField, $stkTier);
@@ -292,12 +307,14 @@ class LetterWizard extends Component
                 'to' => $this->recipient !== '' ? $this->recipient : null,
                 'title' => $this->title,
                 'template' => $this->template,
+                'font' => \App\Support\LetterFonts::clean($this->font),
                 'sections' => [
                     'love' => $this->love,
                     'story' => $this->story,
                     'dreams' => $this->dreams,
                 ],
                 'photos' => $photos,
+                'bg' => $bg,
                 'music' => MusicLink::clean($this->music),
             ],
             $this->opens_at ?: null,
@@ -313,6 +330,13 @@ class LetterWizard extends Component
             'capsule_id' => $result['capsule']->id,
             'sealed_at' => now(),
         ]);
+
+        if ($this->bgFile) {
+            try {
+                $this->bgFile->delete();
+            } catch (\Throwable $e) {
+            }
+        }
 
         // No dejar las fotos originales sin cifrar en el disco temporal.
         foreach ($this->photos as $file) {
@@ -335,5 +359,37 @@ class LetterWizard extends Component
     public function render()
     {
         return view('livewire.letters.wizard', ['plan' => $this->plan()]);
+    }
+
+    public string $gifQuery = '';
+
+    public string $font = 'default';
+
+    public $bgFile = null;
+
+    public function updatedBgFile(): void
+    {
+        try {
+            $this->validateOnly('bgFile', ['bgFile' => 'nullable|image|mimes:jpeg,png,webp|max:5120']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->reset('bgFile');
+            throw $e;
+        }
+    }
+
+    public function removeBg(): void
+    {
+        $this->reset('bgFile');
+    }
+    public array $gifResults = [];
+
+    public function loadGifs(): void
+    {
+        $this->gifResults = \App\Support\Gifs::search($this->gifQuery);
+    }
+
+    public function updatedGifQuery(): void
+    {
+        $this->loadGifs();
     }
 }

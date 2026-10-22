@@ -1,4 +1,5 @@
 <div x-data x-init="$wire.tz = Intl.DateTimeFormat().resolvedOptions().timeZone">
+    @include('capsules._fontfaces')
     <style>
         .wz{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:32px;align-items:start}
         @media(max-width:900px){.wz{grid-template-columns:1fr}}
@@ -83,6 +84,12 @@
         .pv-thank-you .tag{color:#fcd34d;opacity:1}
         .pv-thank-you .phone-photos img{border-radius:10px;box-shadow:0 0 18px rgba(52,211,153,.4)}
 
+        /* pv-fonts: fuente elegida en la vista previa */
+@foreach (\App\Support\LetterFonts::all() as $fk => $fv)
+@if ($fk !== 'default')
+        .phone[data-font="{{ $fk }}"] .phone-in,.phone[data-font="{{ $fk }}"] .phone-in *{font-family:{!! $fv['stack'] !!}!important}
+@endif
+@endforeach
     </style>
 
     <div class="wz-steps">
@@ -131,6 +138,26 @@
                 @error('story') <div class="wz-err">{{ $message }}</div> @enderror
                 @error('dreams') <div class="wz-err">{{ $message }}</div> @enderror
 
+                <div class="wz-field" style="margin-bottom:14px">
+                    <label>Custom background (optional)</label>
+                    <input type="file" wire:model="bgFile" accept="image/jpeg,image/png,image/webp">
+                    <div wire:loading wire:target="bgFile" class="wz-err" style="color:inherit;opacity:.7">Uploading…</div>
+                    @error('bgFile') <div class="wz-err">{{ $message }}</div> @enderror
+                    @if ($bgFile)
+                        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+                            <img src="{{ $bgFile->temporaryUrl() }}" alt="" style="width:120px;height:70px;object-fit:cover;border-radius:8px">
+                            <button type="button" wire:click="removeBg">Remove</button>
+                        </div>
+                    @endif
+                </div>
+                <div class="wz-field" style="margin-bottom:14px">
+                    <label>Font</label>
+                    <select wire:model.live="font">
+                        @foreach (\App\Support\LetterFonts::all() as $fk => $fv)
+                            <option value="{{ $fk }}">{{ $fv['label'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <label>Photos (up to {{ $plan->max_photos }})</label>
                 <div class="wz-drop">
                     Click or drag your photos here
@@ -248,7 +275,7 @@
             </div>
         </div>
 
-        <div class="phone pv-{{ $template }}">
+        <div class="phone pv-{{ $template }}" data-font="{{ \App\Support\LetterFonts::clean($font) }}">
             <div class="phone-in">
                 <div class="tag">{{ $templates[$template] ?? 'Letter' }}</div>
                 <h2 class="{{ $title === '' ? 'muted' : '' }}">{{ $title !== '' ? $title : 'Your title' }}</h2>

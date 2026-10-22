@@ -12,6 +12,11 @@ class MusicMeta
     /** @return array{provider:string,title:string,artist:?string,thumb:?string}|null */
     public static function fetch(string $url): ?array
     {
+        $url = MusicLink::clean($url);
+        if ($url === null) {
+            return null;
+        }
+
         $key = 'musicmeta:' . sha1($url);
         $hit = Cache::get($key);
         if ($hit !== null) {
@@ -99,7 +104,19 @@ class MusicMeta
             return null;
         }
 
-        $r = Http::timeout(4)->get($url);
+        $okHost = false;
+        foreach (['ytimg.com', 'scdn.co', 'mzstatic.com', 'dzcdn.net'] as $d) {
+            $h = strtolower($host);
+            if ($h === $d || str_ends_with($h, '.' . $d)) {
+                $okHost = true;
+                break;
+            }
+        }
+        if (! $okHost) {
+            return null;
+        }
+
+        $r = Http::timeout(4)->withoutRedirecting()->get($url);
         $type = strtolower(strtok((string) $r->header('Content-Type'), ';'));
         if (! $r->ok() || ! preg_match('#^image/(jpeg|png|webp)$#', $type) || strlen($r->body()) > 700000) {
             return null;

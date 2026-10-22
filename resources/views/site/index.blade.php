@@ -5,4 +5,5 @@
     @include('site.partials.about')
     @include('site.partials.stack')
     @include('site.partials.projects')
+    @include('site.partials.pricing')
 @endsection
