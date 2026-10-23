@@ -70,6 +70,7 @@ Route::post('/billing/mercadopago/webhook', [\App\Http\Controllers\BillingContro
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', \App\Http\Middleware\EnsureAdmin::class])
     ->prefix('admin')->name('admin.')->group(function () {
         Route::redirect('/', '/admin/plans');
+        Route::get('visitas', [\App\Http\Controllers\Admin\VisitsController::class, 'index'])->name('visits');
         Route::view('dashboard', 'dashboard')->name('dashboard');
         Route::get('letters', [\App\Http\Controllers\LetterController::class, 'index'])->name('letters.index');
         Route::view('letters/create', 'letters.create')->name('letters.create');

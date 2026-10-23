@@ -24,6 +24,7 @@
         <h4>Admin</h4>
         <a href="{{ route('admin.plans.index') }}" class="{{ request()->routeIs('admin.plans.*') ? 'active' : '' }}"><i class="bi bi-tags"></i> Planes</a>
         <a href="{{ route('admin.subscriptions.index') }}" class="{{ request()->routeIs('admin.subscriptions.*') ? 'active' : '' }}"><i class="bi bi-credit-card-2-front"></i> Suscripciones</a>
+        <a href="{{ route('admin.visits') }}" class="{{ request()->routeIs('admin.visits') ? 'active' : '' }}"><i class="bi bi-bar-chart-line"></i> Visitas</a>
         <h4 style="margin-top:18px">Menu</h4>
     @else
         <h4>Menu</h4>
