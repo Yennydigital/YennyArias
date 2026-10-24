@@ -83,3 +83,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         Route::post('subscriptions/{subscription}/extend', [\App\Http\Controllers\Admin\SubscriptionController::class, 'extend'])->name('subscriptions.extend');
         Route::post('subscriptions/{subscription}/cancel', [\App\Http\Controllers\Admin\SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
     });
+
+// PayPal
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::post('/billing/paypal/checkout', [\App\Http\Controllers\PayPalController::class, 'start'])->name('billing.paypal.checkout');
+    Route::get('/billing/paypal/return', [\App\Http\Controllers\PayPalController::class, 'back'])->name('billing.paypal.return');
+    Route::get('/billing/paypal/cancel', [\App\Http\Controllers\PayPalController::class, 'cancel'])->name('billing.paypal.cancel');
+});
+Route::post('/billing/paypal/webhook', [\App\Http\Controllers\PayPalController::class, 'webhook'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])
+    ->middleware('throttle:60,1')->name('billing.paypal.webhook');
