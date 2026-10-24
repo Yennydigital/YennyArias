@@ -19,6 +19,9 @@ class PayPalController extends Controller
         ]);
 
         $plan = Plan::findOrFail($data['plan_id']);
+        if (\App\Support\Billing\PlanGuard::isDowngrade($request->user(), $plan)) {
+            return redirect()->route('plans.index')->withErrors(['plan' => 'Ese plan es menor al tuyo actual. Podrás contratarlo cuando venza.']);
+        }
 
         try {
             $payment = Checkout::start($request->user(), $plan, $data['cycle'], 'paypal');

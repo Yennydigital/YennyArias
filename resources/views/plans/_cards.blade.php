@@ -42,6 +42,9 @@ main.wrap{max-width:none}
 </div>
 
 
+@if ($errors->has('plan'))
+    <p style="text-align:center;color:#fca5a5;margin:0 0 16px">{{ $errors->first('plan') }}</p>
+@endif
 <div class="pl-grid">
     @foreach ($plans as $p)
         @php
@@ -51,6 +54,8 @@ main.wrap{max-width:none}
             $yearly = $p->priceFor('yearly');
             $saving = ($hasYear && $p->price_monthly > 0) ? round((1 - $yearly / ($p->price_monthly * 12)) * 100) : 0;
             $fmt = fn ($n) => number_format($n, fmod((float) $n, 1) ? 2 : 0, ',', '.');
+            $curPlan = isset($current) ? $plans->firstWhere('code', $current->code) : null;
+            $isLower = ! $isCur && ($mode ?? 'auth') === 'auth' && $curPlan && $p->max_days < $curPlan->max_days;
         @endphp
         <div class="pl-card {{ $isCur ? 'cur' : '' }}">
             @if ($isCur)<span class="pl-badge">TU PLAN ACTUAL</span>@endif
@@ -86,6 +91,8 @@ main.wrap{max-width:none}
                 <a class="pl-cta" href="{{ route('register') }}" style="{{ $free ? '' : 'background:#22d3ee;border-color:#22d3ee;color:#04111f;font-weight:600;' }}text-decoration:none">{{ $free ? 'Empezar gratis' : 'Crear cuenta y contratar' }}</a>
             @elseif ($free)
                 <span class="pl-cta" style="opacity:.6">Incluido</span>
+            @elseif ($isLower)
+                <span class="pl-cta" style="opacity:.6;cursor:not-allowed">Disponible cuando venza tu plan</span>
             @else
                 <form method="POST" action="{{ route('billing.checkout') }}">
                     @csrf
