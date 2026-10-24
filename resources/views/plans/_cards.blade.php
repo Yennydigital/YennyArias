@@ -97,6 +97,9 @@ main.wrap{max-width:none}
                     </select>
                     <button type="submit" class="pl-cta" style="background:#22d3ee;border-color:#22d3ee;color:#04111f;font-weight:600;cursor:pointer">Contratar</button>
                     <button type="submit" formaction="{{ route('billing.qr') }}" class="pl-cta" style="margin-top:8px;background:transparent;border-color:#22d3ee;color:#22d3ee;font-weight:600;cursor:pointer">Pagar con QR</button>
+                    @if (auth()->user()?->is_admin)
+                    <button type="submit" formaction="{{ route('billing.paypal.checkout') }}" class="pl-cta" style="margin-top:8px;background:transparent;border-color:#ffc439;color:#ffc439;font-weight:600;cursor:pointer">Pagar con PayPal (USD)</button>
+                    @endif
                 </form>
             @endif
         </div>
