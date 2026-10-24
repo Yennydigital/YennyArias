@@ -15,7 +15,7 @@ class BillingController extends Controller
     {
         $data = $request->validate([
             'plan_id' => 'required|integer|exists:plans,id',
-            'cycle' => 'required|in:monthly',
+            'cycle' => 'required|in:monthly,yearly',
             'provider' => 'required|in:mercadopago,stripe',
         ]);
 
@@ -123,7 +123,7 @@ class BillingController extends Controller
         if (\App\Support\Billing\PlanGuard::isDowngrade($request->user(), $plan)) {
             return redirect()->route('plans.index')->withErrors(['plan' => 'Ese plan es menor al tuyo actual. Podrás contratarlo cuando venza.']);
         }
-        $cycle = 'monthly';
+        $cycle = (string) $request->input('cycle', 'monthly');
 
         try {
             $payment = \App\Support\Billing\Checkout::start($request->user(), $plan, $cycle, 'mercadopago');

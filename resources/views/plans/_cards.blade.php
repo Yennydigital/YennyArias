@@ -35,7 +35,7 @@ main.wrap{max-width:none}
 <div class="pl-head">
     <h1 class="title">Planes</h1>
     <p class="sub" style="margin-bottom:0">Elige cuánto quieres guardar y compartir en tus cartas.</p>
-    <div class="pl-toggle" id="plToggle" style="display:none">
+    <div class="pl-toggle" id="plToggle">
         <button type="button" data-cycle="monthly" class="on">Mensual</button>
         <button type="button" data-cycle="yearly">Anual</button>
     </div>

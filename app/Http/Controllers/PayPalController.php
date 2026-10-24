@@ -15,7 +15,7 @@ class PayPalController extends Controller
     {
         $data = $request->validate([
             'plan_id' => 'required|integer|exists:plans,id',
-            'cycle' => 'required|in:monthly',
+            'cycle' => 'required|in:monthly,yearly',
         ]);
 
         $plan = Plan::findOrFail($data['plan_id']);
