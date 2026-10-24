@@ -16,7 +16,7 @@ class PayPalGateway
     {
         return config('billing.paypal.mode') === 'live'
             ? 'https://api-m.paypal.com'
-            : 'https://api-m.sandbox.paypal.com'\;
+            : 'https://api-m.sandbox.paypal.com';
     }
 
     private function token(): string
