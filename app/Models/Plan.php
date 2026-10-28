@@ -8,7 +8,7 @@ class Plan extends Model
 {
     protected $fillable = [
         'code', 'name', 'currency', 'price_monthly', 'price_yearly',
-        'max_photos', 'max_days', 'allow_music', 'premium_templates',
+        'max_photos', 'max_days', 'max_letters', 'allow_music', 'premium_templates',
         'is_active', 'position',
     ];
 

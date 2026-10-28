@@ -17,6 +17,7 @@
         <tr><th>Precio anual</th><td>{{ $plan->price_yearly !== null ? number_format($plan->price_yearly, 2) . ' ' . $plan->currency : '-' }}</td></tr>
         <tr><th>Max. fotos</th><td>{{ $plan->max_photos }}</td></tr>
         <tr><th>Max. dias de la carta</th><td>{{ $plan->max_days }}</td></tr>
+        <tr><th>Max. cartas activas</th><td>{{ $plan->max_letters ?? 'Sin tope' }}</td></tr>
         <tr><th>Permite musica</th><td>{{ $plan->allow_music ? 'Si' : 'No' }}</td></tr>
         <tr><th>Plantillas premium</th><td>{{ $plan->premium_templates ? 'Si' : 'No' }}</td></tr>
         <tr><th>Orden</th><td>{{ $plan->position }}</td></tr>

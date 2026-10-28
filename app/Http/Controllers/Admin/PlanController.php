@@ -68,6 +68,7 @@ class PlanController extends Controller
             'price_yearly' => 'nullable|numeric|min:0|max:99999999',
             'max_photos' => 'required|integer|min:0|max:20',
             'max_days' => 'required|integer|min:1|max:365',
+            'max_letters' => 'nullable|integer|min:1|max:100000',
             'position' => 'required|integer|min:0|max:100',
         ];
     }

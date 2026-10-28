@@ -42,6 +42,10 @@
             <input type="number" min="1" max="365" name="max_days" value="{{ old('max_days', $plan->max_days ?? 30) }}" required>
         </div>
         <div>
+            <label>Max. cartas activas (vacio = sin tope)</label>
+            <input type="number" min="1" max="100000" name="max_letters" value="{{ old('max_letters', $plan->max_letters) }}" placeholder="Sin tope">
+        </div>
+        <div>
             <label>Orden</label>
             <input type="number" min="0" max="100" name="position" value="{{ old('position', $plan->position ?? 0) }}" required>
         </div>

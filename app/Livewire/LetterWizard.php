@@ -232,6 +232,11 @@ class LetterWizard extends Component
             return;
         }
 
+        if ($this->step === 1 && \App\Support\Plans::reachedLetterLimit(auth()->user())) {
+            $this->addError('template', 'Your plan allows up to ' . $this->plan()->max_letters . ' active letters. Delete one or upgrade to Plus.');
+            return;
+        }
+
         if ($this->step === 2 && ! $this->validateContent()) {
             return;
         }
@@ -270,6 +275,17 @@ class LetterWizard extends Component
         }
         if (count($this->photos) > $plan->max_photos) {
             $this->addError('newPhotos', 'Your plan allows up to ' . $plan->max_photos . ' photos.');
+            $this->step = 2;
+            return;
+        }
+
+        if (\App\Support\Plans::reachedLetterLimit(auth()->user())) {
+            $this->addError('template', 'Your plan allows up to ' . $this->plan()->max_letters . ' active letters. Delete one or upgrade to Plus.');
+            $this->step = 1;
+            return;
+        }
+        if (trim((string) $this->music) !== '' && ! $plan->allow_music) {
+            $this->addError('music', 'Music is available on Plus.');
             $this->step = 2;
             return;
         }
@@ -315,7 +331,7 @@ class LetterWizard extends Component
                 ],
                 'photos' => $photos,
                 'bg' => $bg,
-                'music' => MusicLink::clean($this->music),
+                'music' => $plan->allow_music ? MusicLink::clean($this->music) : null,
             ],
             $this->opens_at ?: null,
             $this->tz,

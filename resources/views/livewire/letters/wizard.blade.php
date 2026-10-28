@@ -195,7 +195,7 @@
                     <label>Soundtrack (YouTube, Spotify, Apple Music, Deezer or Amazon Music link)</label>
 
                     <div class="mp-wrap">
-                        <input type="url" wire:model.live.debounce.400ms="music" maxlength="500"
+                        <input type="url" wire:model.live.debounce.400ms="music" maxlength="500" @disabled(! $plan->allow_music)
                                @input="val = $event.target.value"
                                placeholder="Pega un enlace de YouTube, Spotify, Apple Music, Deezer o Amazon Music"
                                :style="active ? 'padding-right:110px' : ''">
@@ -204,6 +204,12 @@
                         </template>
                     </div>
                     @error('music') <div class="wz-err">{{ $message }}</div> @enderror
+                    @unless ($plan->allow_music)
+                        <div class="wz-err" style="color:inherit;opacity:.85">
+                            🔒 La música está disponible en Plus.
+                            <a href="{{ \Illuminate\Support\Facades\Route::has('plans.index') ? route('plans.index') : url('/plans') }}">Ver planes</a>
+                        </div>
+                    @endunless
 
                     <div wire:ignore class="mp-carousel">
                         <button type="button" class="mp-arrow l" @click="scrollBy(-1)" aria-label="Anterior">‹</button>

@@ -11,7 +11,7 @@ class PlanSeeder extends Seeder
     {
         Plan::updateOrCreate(['code' => 'free'], [
             'name' => 'Free', 'currency' => 'USD', 'price_monthly' => 0, 'price_yearly' => null,
-            'max_photos' => 3, 'max_days' => 30, 'allow_music' => false,
+            'max_photos' => 3, 'max_days' => 30, 'max_letters' => 3, 'allow_music' => false,
             'premium_templates' => false, 'is_active' => true, 'position' => 0,
         ]);
 
